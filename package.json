@@ -1,0 +1,28 @@
+{
+  "name": "@mjstahl/elementree",
+  "version": "0.1.0",
+  "description": "Finite State Machines + JS Template Literals",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --fix",
+    "test": "npm run lint && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjstahl/elementree.git"
+  },
+  "author": "Mark Stahl <mjstahl@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mjstahl/elementree/issues"
+  },
+  "homepage": "https://github.com/mjstahl/elementree#readme",
+  "devDependencies": {
+    "ava": "^1.1.0",
+    "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "@mjstahl/stated": "^3.0.0",
+    "nanohtml": "^1.4.0"
+  }
+}
