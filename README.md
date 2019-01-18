@@ -19,9 +19,7 @@ const state = new State({
   }
 })
 
-function template (stated) {
-  const { actions, inital, to, value } = stated
-
+function template ({ actions, inital, to, value }) {
   return html`
     <p>${value}</p>
     <button onclick=${signoff}>World</button>
