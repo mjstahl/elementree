@@ -11,7 +11,7 @@ const { elementree, html, State } = require('@mjstahl/elementree')
 
 const state = new State({
   initial: {
-    value: 'Hello'
+    value: 'Hello',
     GOODBYE: 'goodbye'
   },
   goodbye: {
@@ -19,11 +19,18 @@ const state = new State({
   }
 })
 
-function template ({ actions, to, value }) {
+function template (stated) {
+  const { actions, inital, to, value } = stated
+
   return html`
     <p>${value}</p>
     <button onclick=${signoff}>World</button>
+    <button onclick=${reset}>Reset</button>
   `
+
+  function reset () {
+    initial()
+  }
 
   function signoff () {
     to(actions.GOODBYE)
