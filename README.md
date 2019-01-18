@@ -35,6 +35,6 @@ function template ({ actions, inital, to, value }) {
   }
 }
 
-const children = elementree(state, template)
+const children = elementree(template)(state)
 document.body.appendChild(children)
 ```
