@@ -1,7 +1,7 @@
 # Elementree
 "Make everything as simple as possible, but not simpler."
 
-We think that might look something like **Finite State Machines + JS Template Literals**.
+We think that might look something like **Pushdown Automata + JS Template Literals**.
 At least for web development.
 
 ## A Simple Example
@@ -19,9 +19,7 @@ const state = new State({
   }
 })
 
-function template (stated) {
-  const { actions, inital, to, value } = stated
-
+function template ({ actions, inital, to, value }) {
   return html`
     <p>${value}</p>
     <button onclick=${signoff}>World</button>
@@ -37,6 +35,6 @@ function template (stated) {
   }
 }
 
-const children = elementree(state, template)
-document.body.appendChild(children)
+const tree = elementree(template)(state)
+document.body.appendChild(tree)
 ```

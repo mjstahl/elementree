@@ -23,7 +23,7 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "@mjstahl/stated": "^3.0.0",
+    "@mjstahl/stated": "^3.1.0",
     "nanohtml": "^1.4.0"
   },
   "ava": {

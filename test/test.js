@@ -12,6 +12,6 @@ test('simple rendering of a paragraph', t => {
       <p>${value}</p>
     `
   }
-  document.body.appendChild(elementree(state, template))
+  document.body.appendChild(elementree(template)(state))
   t.is(document.querySelector('p').innerHTML, state.value)
 })
