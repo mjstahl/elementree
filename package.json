@@ -1,6 +1,6 @@
 {
   "name": "@mjstahl/elementree",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Finite State Machines + JS Template Literals",
   "main": "index.js",
   "scripts": {
