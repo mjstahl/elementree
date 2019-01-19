@@ -19,22 +19,27 @@ const state = new State({
   }
 })
 
-function template ({ actions, initial, to, value }) {
+function template (stated) {
   return html`
-    <p>${value}</p>
-    <button onclick=${signoff}>World</button>
-    <button onclick=${reset}>Reset</button>
+    <body>
+      <p>${stated.value}</p>
+      <button onclick=${signoff} ${stated.state === 'goodbye' && 'disabled'}>
+        World
+      </button>
+      <button onclick=${reset}>
+        Reset
+      </button>
+    </body>
   `
 
   function reset () {
-    initial()
+    stated.initial()
   }
 
   function signoff () {
-    to(actions.GOODBYE)
+    stated.to(stated.actions.GOODBYE)
   }
 }
 
-const tree = elementree(template)(state)
-document.body.appendChild(tree)
+elementree(template, state)('body')
 ```

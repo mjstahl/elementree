@@ -1,17 +1,24 @@
-const { Stated } = require('@mjstahl/stated')
-const html = require('nanohtml')
-const raw = require('nanohtml/raw')
+const morph = require('nanomorph')
+const ready = require('document-ready')
 
-function elementree (template) {
-  return function (state) {
-    state.on('transition', template)
-    return template(state)
+function elementree (template, state) {
+  return function (selector) {
+    let parentTree = null
+    state.on('transition', function (updatedState) {
+      morph(parentTree, template(updatedState))
+    })
+    ready(function () {
+      parentTree = (typeof selector === 'string')
+        ? document.querySelector(selector)
+        : selector
+      morph(parentTree, template(state))
+    })
   }
 }
 
 module.exports = {
   elementree,
-  html,
-  raw,
-  State: Stated
+  html: require('nanohtml'),
+  raw: require('nanohtml/raw'),
+  State: require('@mjstahl/stated').Stated
 }
