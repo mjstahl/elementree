@@ -1,13 +1,4 @@
-# Elementree
-"Make everything as simple as possible, but not simpler."
-
-We think that might look something like **Pushdown Automata + JS Template Literals**.
-At least for web development.
-
-## A Simple Example
-
-```js
-const { elementree, html, State } = require('@mjstahl/elementree')
+const { elementree, html, State } = require('../index')
 
 const state = new State({
   initial: {
@@ -37,4 +28,3 @@ function template ({ actions, initial, to, value }) {
 
 const tree = elementree(template)(state)
 document.body.appendChild(tree)
-```
