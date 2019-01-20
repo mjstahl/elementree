@@ -10,11 +10,11 @@ const state = new State({
   }
 })
 
-function template (stated) {
+function template (model) {
   return html`
     <body>
-      <p>${stated.value}</p>
-      <button onclick=${signoff} ${stated.state === 'goodbye' && 'disabled'}>
+      <p>${model.value}</p>
+      <button onclick=${signoff} ${model.state === 'goodbye' && 'disabled'}>
         World
       </button>
       <button onclick=${reset}>
@@ -24,11 +24,11 @@ function template (stated) {
   `
 
   function reset () {
-    stated.initial()
+    model.initial()
   }
 
   function signoff () {
-    stated.to(stated.actions.GOODBYE)
+    model.to(model.actions.GOODBYE)
   }
 }
 
