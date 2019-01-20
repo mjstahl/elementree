@@ -7,7 +7,7 @@ function elementree (template, state) {
     state.on('transition', function (updatedState) {
       morph(parentTree, template(updatedState))
     })
-    ready(function () {
+    ready(function domReady() {
       parentTree = (typeof selector === 'string')
         ? document.querySelector(selector)
         : selector
