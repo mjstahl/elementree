@@ -1,6 +1,6 @@
-const { elementree, html, State } = require('../index')
+const { couple, render } = require('../index')
 
-const state = new State({
+const state = {
   initial: {
     value: 'Hello',
     GOODBYE: 'goodbye'
@@ -8,10 +8,10 @@ const state = new State({
   goodbye: {
     value: 'Goodbye'
   }
-})
+}
 
-function template (model) {
-  return html`
+function template (app, model) {
+  return render`
     <body>
       <p>${model.value}</p>
       <button onclick=${signoff} ${model.state === 'goodbye' && 'disabled'}>
@@ -32,4 +32,4 @@ function template (model) {
   }
 }
 
-elementree(template, state)('body')
+couple(template, state)('body')
