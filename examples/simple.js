@@ -1,7 +1,8 @@
 const { couple, render } = require('../index')
 
 const state = {
-  initial: {
+  initial: 'hello',
+  hello: {
     value: 'Hello',
     GOODBYE: 'goodbye'
   },
@@ -24,7 +25,7 @@ function template (app, model) {
   `
 
   function reset () {
-    model.initial()
+    model.reset()
   }
 
   function signoff () {

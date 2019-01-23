@@ -10,7 +10,8 @@ At least for web development.
 const { couple, render } = require('@mjstahl/elementree')
 
 const state = {
-  initial: {
+  initial: 'hello',
+  hello: {
     value: 'Hello',
     GOODBYE: 'goodbye'
   },
@@ -33,7 +34,7 @@ function template (app, model) {
   `
 
   function reset () {
-    model.initial()
+    model.reset()
   }
 
   function signoff () {
