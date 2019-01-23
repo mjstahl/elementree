@@ -4,10 +4,11 @@ const state = {
   initial: 'hello',
   hello: {
     value: 'Hello',
-    GOODBYE: 'goodbye'
+    TOGGLE: 'goodbye'
   },
   goodbye: {
-    value: 'Goodbye'
+    value: 'Goodbye',
+    TOGGLE: 'hello'
   }
 }
 
@@ -15,21 +16,14 @@ function template (app, model) {
   return render`
     <body>
       <p>${model.value}</p>
-      <button onclick=${signoff} ${model.state === 'goodbye' && 'disabled'}>
-        World
-      </button>
-      <button onclick=${reset}>
-        Reset
+      <button onclick=${toggle}>
+        toggle
       </button>
     </body>
   `
 
-  function reset () {
-    model.reset()
-  }
-
-  function signoff () {
-    model.to(model.actions.GOODBYE)
+  function toggle () {
+    model.to(model.actions.TOGGLE)
   }
 }
 
