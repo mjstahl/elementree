@@ -12,10 +12,10 @@ const state = {
   }
 }
 
-function template (app, model) {
+function template (app, { actions, to, value }) {
   return render`
     <body>
-      <p>${model.value}</p>
+      <p>${value}</p>
       <button onclick=${toggle}>
         toggle
       </button>
@@ -23,7 +23,7 @@ function template (app, model) {
   `
 
   function toggle () {
-    model.to(model.actions.TOGGLE)
+    to(actions.TOGGLE)
   }
 }
 
