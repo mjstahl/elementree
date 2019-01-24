@@ -1,4 +1,5 @@
-const { couple, render } = require('../../index')
+const { attach, couple, render } = require('../../index')
+const sunmoon = require('./sunmoon')
 
 const state = {
   initial: 'hello',
@@ -15,7 +16,7 @@ const state = {
 function template ({ actions, to, value }) {
   return render`
     <body>
-      <p>${value}</p>
+      <p>${value} ${sunmoon(value)}</p>
       <button onclick=${toggle}>
         toggle
       </button>
@@ -27,4 +28,10 @@ function template ({ actions, to, value }) {
   }
 }
 
-couple(template, state)('body')
+const toRender = couple(template, state)
+const routes = {
+  '/toggle/index.html': toRender,
+  '/hello': function () { console.log(args) }
+}
+
+attach('body', routes)

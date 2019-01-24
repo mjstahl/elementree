@@ -1,26 +1,35 @@
 const morph = require('nanomorph')
 const ready = require('./ready')
-const { Stated } = require('@mjstahl/stated')
+const routes = require('./routes')
+const stated = require('@mjstahl/stated')
 
-function elementree (template, state) {
-  const model = new Stated(state)
-
-  return function (selector) {
-    let parentTree = null
-    model.on('transition', function (updatedModel) {
-      morph(parentTree, template(updatedModel))
+let parentTree, root, router
+function attach (selector, paths) {
+  if (paths) {
+    router = routes(paths)
+    router.on('transition', () => {
     })
-    ready(function domReady () {
-      parentTree = (typeof selector === 'string')
-        ? document.querySelector(selector)
-        : selector
-      morph(parentTree, template(model))
-    })
+    // window.ROUTE = router
   }
+  ready(() => {
+    parentTree = document.querySelector(selector)
+    morph(parentTree, root())
+  })
+}
+
+function couple (template, state) {
+  const model = stated(state)
+  model.on('transition', () => morph(parentTree, root()))
+  root = function () {
+    return template(model, ...arguments)
+  }
+  return root
 }
 
 module.exports = {
-  couple: elementree,
+  attach,
+  couple,
+  raw: require('nanohtml/raw'),
   render: require('nanohtml'),
-  raw: require('nanohtml/raw')
+  state: stated
 }

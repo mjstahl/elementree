@@ -7,18 +7,7 @@ At least for web development.
 ## A Simple Example
 
 ```js
-const { couple, render } = require('@mjstahl/elementree')
-
-const state = {
-  initial: 'hello',
-  hello: {
-    value: 'Hello',
-    GOODBYE: 'goodbye'
-  },
-  goodbye: {
-    value: 'Goodbye'
-  }
-}
+const { attach, couple, render } = require('@mjstahl/elementree')
 
 function template (model, app) {
   return render`
@@ -42,5 +31,17 @@ function template (model, app) {
   }
 }
 
-couple(template, state)('body')
+const state = {
+  initial: 'hello',
+  hello: {
+    value: 'Hello',
+    GOODBYE: 'goodbye'
+  },
+  goodbye: {
+    value: 'Goodbye'
+  }
+}
+
+couple(template, state)
+attach('body')
 ```

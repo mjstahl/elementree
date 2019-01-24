@@ -7,7 +7,7 @@
     "develop": "parcel examples/*html",
     "lint": "standard --fix index.js test/**/*.js",
     "size": "size-limit",
-    "test": "npm run lint && ava"
+    "test": "npm run lint && ava && npm run size"
   },
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "7 KB"
+      "limit": "6 KB"
     }
   ]
 }
