@@ -1,4 +1,4 @@
-const { couple, render } = require('../index')
+const { couple, render } = require('../../index')
 
 const state = {
   initial: 'hello',
