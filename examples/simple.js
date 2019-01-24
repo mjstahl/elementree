@@ -12,7 +12,7 @@ const state = {
   }
 }
 
-function template (app, { actions, to, value }) {
+function template ({ actions, to, value }) {
   return render`
     <body>
       <p>${value}</p>

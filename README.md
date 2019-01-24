@@ -20,7 +20,7 @@ const state = {
   }
 }
 
-function template (app, model) {
+function template (model, app) {
   return render`
     <body>
       <p>${model.value}</p>
