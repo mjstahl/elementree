@@ -1,5 +1,5 @@
 const morph = require('nanomorph')
-const ready = require('document-ready')
+const ready = require('./ready')
 const { Stated } = require('@mjstahl/stated')
 
 function elementree (template, state) {

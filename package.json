@@ -6,6 +6,7 @@
   "scripts": {
     "develop": "parcel examples/*html",
     "lint": "standard --fix index.js test/**/*.js",
+    "size": "size-limit",
     "test": "npm run lint && ava"
   },
   "repository": {
@@ -27,7 +28,6 @@
   },
   "dependencies": {
     "@mjstahl/stated": "^5.3.1",
-    "document-ready": "^2.0.2",
     "nanohtml": "^1.4.0",
     "nanomorph": "^5.1.3"
   },
@@ -35,5 +35,11 @@
     "require": [
       "./test/helpers/browser-setup.js"
     ]
-  }
+  },
+  "size-limit": [
+    {
+      "path": "index.js",
+      "limit": "7 KB"
+    }
+  ]
 }
