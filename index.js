@@ -3,7 +3,7 @@ const ready = require('./ready')
 const routes = require('./routes')
 const stated = require('@mjstahl/stated')
 
-let parentTree, root, router
+let parentTree, rendering = false, root, router
 function attach (selector, paths) {
   if (paths) {
     router = routes(paths)
@@ -20,7 +20,13 @@ function attach (selector, paths) {
 
 function couple (template, state) {
   const model = state ? stated(state) : undefined
-  model && model.onTransition(() => morph(parentTree, root()))
+  model && model.onTransition(() => {
+    if (!rendering) {
+      rendering = true
+      morph(parentTree, root())
+      rendering = false
+    }
+  })
   root = function () {
     return (model)
       ? template(model, ...arguments)
