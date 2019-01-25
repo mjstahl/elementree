@@ -4,30 +4,23 @@
 We think that might look something like **Pushdown Automata + JS Template Literals**.
 At least for web development.
 
-## A Simple Example
+## A Simple Toggle Example
 
 ```js
-const { attach, prepare, ready, render } = require('@mjstahl/elementree')
+const { attach, prepare, render } = require('@mjstahl/elementree')
 
 function template (model, app) {
   return render`
     <body>
       <p>${model.value}</p>
-      <button onclick=${signoff} ${model.state === 'goodbye' && 'disabled'}>
-        World
-      </button>
-      <button onclick=${reset}>
-        Reset
+      <button onclick=${toggle}>
+        Toggle
       </button>
     </body>
   `
 
-  function reset () {
-    model.reset()
-  }
-
-  function signoff () {
-    model.to(model.actions.GOODBYE)
+  function toggle () {
+    model.to(model.actions.TOGGLE)
   }
 }
 
@@ -35,15 +28,14 @@ const state = {
   initial: 'hello',
   hello: {
     value: 'Hello',
-    GOODBYE: 'goodbye'
+    TOGGLE: 'goodbye'
   },
   goodbye: {
-    value: 'Goodbye'
+    value: 'Goodbye',
+    TOGGLE: 'hello'
   }
 }
 
 prepare(template, state)
-ready(function () {
-  attach(document.body)
-})
+attach('body')
 ```
