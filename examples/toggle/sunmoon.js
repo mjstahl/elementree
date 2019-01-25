@@ -1,4 +1,4 @@
-const { couple, render } = require('../../index')
+const { prepare, render } = require('../../index')
 
 function template (model, greeting) {
   if (greeting.toLowerCase() !== model.state) {
@@ -20,5 +20,5 @@ const state = {
     TOGGLE: 'hello'
   }
 }
-module.exports = couple(template, state)
+module.exports = prepare(template, state)
 

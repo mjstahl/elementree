@@ -1,4 +1,4 @@
-const { attach, couple, ready, render } = require('../../index')
+const { attach, prepare, ready, render } = require('../../index')
 const greeting = require('./greeting')
 const sunmoon = require('./sunmoon')
 
@@ -29,7 +29,7 @@ function template ({ actions, to, value }) {
   }
 }
 
-const toRender = couple(template, state)
+const toRender = prepare(template, state)
 const routes = {
   '/toggle/index.html': toRender,
   '/hello': null

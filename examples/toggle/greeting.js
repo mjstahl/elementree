@@ -1,5 +1,5 @@
-const { couple, render } = require('../../index')
+const { prepare, render } = require('../../index')
 
 module.exports =
-  couple((greeting) => render`<span>${greeting}</span>`)
+  prepare((greeting) => render`<span>${greeting}</span>`)
 
