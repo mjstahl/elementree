@@ -1,7 +1,7 @@
 const morph = require('nanomorph')
 const ready = require('./ready')
 const routes = require('./routes')
-const stated = require('@mjstahl/stated')
+const { Stated } = require('@mjstahl/stated')
 
 let parentTree, rendering = false, root, router
 function attach (selector, paths) {
@@ -19,7 +19,10 @@ function attach (selector, paths) {
 }
 
 function prepare (template, state) {
-  const model = state ? stated(state) : undefined
+  let model
+  if (state) {
+    model = (state instanceof Stated) ? state : new Stated(state)
+  }
   model && model.onTransition(() => {
     if (rendering) { return }
     rendering = true
@@ -39,5 +42,5 @@ module.exports = {
   prepare,
   ready,
   render: require('nanohtml'),
-  state: stated
+  state: Stated
 }
