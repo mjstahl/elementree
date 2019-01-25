@@ -1,14 +1,14 @@
 {
-  "name": "@mjstahl/elementree",
+  "name": "elementree",
   "version": "0.7.3",
   "description": "Finite State Machines + JS Template Literals",
   "main": "dist/elementree.umd.js",
   "module": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack && npm run size",
     "lint": "standard --fix index.js test/**/*.js",
     "size": "size-limit",
-    "test": "npm run lint && ava && npm run size"
+    "test": "npm run lint && ava"
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,7 @@
   },
   "size-limit": [
     {
-      "path": "index.js",
+      "path": "dist/elementree.umd.js",
       "limit": "6 KB"
     }
   ]
