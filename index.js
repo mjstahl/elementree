@@ -17,10 +17,12 @@ function attach (selector, paths) {
 }
 
 function couple (template, state) {
-  const model = stated(state)
-  model.onTransition(() => morph(parentTree, root()))
+  const model = state ? stated(state) : undefined
+  model && model.onTransition(() => morph(parentTree, root()))
   root = function () {
-    return template(model, ...arguments)
+    return (model)
+      ? template(model, ...arguments)
+      : template(...arguments)
   }
   return root
 }
@@ -28,7 +30,7 @@ function couple (template, state) {
 module.exports = {
   attach,
   couple,
-  raw: require('nanohtml/raw'),
+  html: require('nanohtml/raw'),
   render: require('nanohtml'),
   state: stated
 }

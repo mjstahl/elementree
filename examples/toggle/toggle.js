@@ -1,4 +1,5 @@
 const { attach, couple, render } = require('../../index')
+const greeting = require('./greeting')
 const sunmoon = require('./sunmoon')
 
 const state = {
@@ -16,7 +17,7 @@ const state = {
 function template ({ actions, to, value }) {
   return render`
     <body>
-      <p>${value} ${sunmoon(value)}</p>
+      <p>${greeting(value)} ${sunmoon(value)}</p>
       <button onclick=${toggle}>
         toggle
       </button>
