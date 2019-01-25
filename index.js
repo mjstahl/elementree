@@ -3,12 +3,15 @@ const ready = require('./ready')
 const routes = require('./routes')
 const { Stated } = require('@mjstahl/stated')
 
-let parentTree, rendering = false, root, router
+let parentTree; let rendering = false; let root; let router
 function attach (selector, paths) {
   if (paths) {
     router = routes(paths)
-    router.onTransition(() => { })
-    // window.ROUTE = router
+    router.onTransition(({ value }) => {
+      root = value.view
+      morph(parentTree, root(value))
+    })
+    window.ROUTE = router
   }
   ready(() => {
     parentTree = (typeof selector === 'string')
@@ -42,5 +45,6 @@ module.exports = {
   prepare,
   ready,
   render: require('nanohtml'),
+  route: null,
   state: Stated
 }

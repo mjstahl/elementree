@@ -1,6 +1,5 @@
 const test = require('ava')
-const ready = require('../ready')
-const { attach, couple, render } = require('../index')
+const { attach, prepare, ready, render } = require('../index')
 
 test.cb('simple rendering of a paragraph', t => {
   t.plan(1)
@@ -15,7 +14,7 @@ test.cb('simple rendering of a paragraph', t => {
       </body>
     `
   }
-  couple(template, state)
+  prepare(template, state)
   attach('body')
   ready(function () {
     t.is(document.querySelector('p').innerHTML, state.test.value)

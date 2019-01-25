@@ -14,7 +14,7 @@ const state = {
   }
 }
 
-function template ({ actions, to, value }) {
+function template ({ actions, to, value }, app) {
   return render`
     <body>
       <p>${greeting(value)} ${sunmoon(value)}</p>
@@ -32,7 +32,7 @@ function template ({ actions, to, value }) {
 const toRender = prepare(template, state)
 const routes = {
   '/toggle/index.html': toRender,
-  '/hello': null
+  '/hello': toRender
 }
 
 ready(function () {
