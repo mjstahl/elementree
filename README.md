@@ -7,7 +7,7 @@ At least for web development.
 ## A Simple Toggle Example
 
 ```js
-const { attach, prepare, render } = require('@mjstahl/elementree')
+import { attach, prepare, render } from 'elementree'
 
 function template (model, app) {
   return render`
