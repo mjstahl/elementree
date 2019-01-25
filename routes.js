@@ -1,15 +1,14 @@
-const stated = require('@mjstahl/stated')
+const { Stated } = require('@mjstahl/stated')
 
 module.exports = function (routes) {
   Object.keys(routes).forEach(r => {
     const option = routes[r]
-    routes[r] = {
-      value: (typeof option === 'function') ? { view: option } : option
-    }
+    const value = (typeof option === 'function') ? { view: option } : option
+    routes[r] = { value }
     if (!routes.initial) {
-      const current = window.location.pathname
-      routes.initial = (new RegExp(r).test(current)) ? r : undefined
+      routes.initial =
+        (new RegExp(r).test(window.location.pathname)) ? r : undefined
     }
   })
-  return stated(routes)
+  return new Stated(routes)
 }

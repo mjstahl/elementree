@@ -36,10 +36,8 @@
       "./test/helpers/browser-setup.js"
     ]
   },
-  "size-limit": [
-    {
-      "path": "index.js",
-      "limit": "6 KB"
-    }
-  ]
+  "size-limit": [{
+    "path": "index.js",
+    "limit": "6 KB"
+  }]
 }

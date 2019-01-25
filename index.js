@@ -1,7 +1,8 @@
-const morph = require('nanomorph')
+const merge = require('nanomorph')
+const { Stated } = require('@mjstahl/stated')
+
 const ready = require('./ready')
 const routes = require('./routes')
-const { Stated } = require('@mjstahl/stated')
 
 let parentTree; let rendering = false; let root; let router
 function attach (selector, paths) {
@@ -9,7 +10,7 @@ function attach (selector, paths) {
     router = routes(paths)
     router.onTransition(({ value }) => {
       root = value.view
-      morph(parentTree, root(value))
+      merge(parentTree, root(value))
     })
     window.ROUTE = router
   }
@@ -17,7 +18,7 @@ function attach (selector, paths) {
     parentTree = (typeof selector === 'string')
       ? document.querySelector(selector)
       : selector
-    morph(parentTree, root())
+    merge(parentTree, root())
   })
 }
 
@@ -29,7 +30,7 @@ function prepare (template, state) {
   model && model.onTransition(() => {
     if (rendering) { return }
     rendering = true
-    rendering = !morph(parentTree, root())
+    rendering = !merge(parentTree, root())
   })
   root = function () {
     return (model)
