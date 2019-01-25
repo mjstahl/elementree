@@ -1,6 +1,5 @@
 const merge = require('nanomorph')
 const { Stated } = require('@mjstahl/stated')
-
 const ready = require('./ready')
 const routes = require('./routes')
 
