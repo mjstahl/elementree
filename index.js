@@ -11,7 +11,9 @@ function attach (selector, paths) {
     // window.ROUTE = router
   }
   ready(() => {
-    parentTree = document.querySelector(selector)
+    parentTree = (typeof selector === 'string')
+      ? document.querySelector(selector)
+      : selector
     morph(parentTree, root())
   })
 }
@@ -31,6 +33,7 @@ module.exports = {
   attach,
   couple,
   html: require('nanohtml/raw'),
+  ready,
   render: require('nanohtml'),
   state: stated
 }

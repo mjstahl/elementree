@@ -7,7 +7,7 @@ At least for web development.
 ## A Simple Example
 
 ```js
-const { attach, couple, render } = require('@mjstahl/elementree')
+const { attach, couple, ready, render } = require('@mjstahl/elementree')
 
 function template (model, app) {
   return render`
@@ -43,5 +43,7 @@ const state = {
 }
 
 couple(template, state)
-attach('body')
+ready(function () {
+  attach(document.body)
+})
 ```

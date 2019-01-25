@@ -1,4 +1,4 @@
-const { attach, couple, render } = require('../../index')
+const { attach, couple, ready, render } = require('../../index')
 const greeting = require('./greeting')
 const sunmoon = require('./sunmoon')
 
@@ -35,4 +35,6 @@ const routes = {
   '/hello': null
 }
 
-attach('body', routes)
+ready(function () {
+  attach(document.body, routes)
+})
