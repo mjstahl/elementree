@@ -8,7 +8,7 @@ module.exports = function (routes) {
     }
     if (!routes.initial) {
       const current = window.location.pathname
-      routes.initial = (new RegExp(r).test(current)) ? r : null
+      routes.initial = (new RegExp(r).test(current)) ? r : undefined
     }
   })
   return stated(routes)

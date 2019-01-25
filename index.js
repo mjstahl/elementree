@@ -7,8 +7,7 @@ let parentTree, root, router
 function attach (selector, paths) {
   if (paths) {
     router = routes(paths)
-    router.on('transition', () => {
-    })
+    router.onTransition(() => { })
     // window.ROUTE = router
   }
   ready(() => {
@@ -19,7 +18,7 @@ function attach (selector, paths) {
 
 function couple (template, state) {
   const model = stated(state)
-  model.on('transition', () => morph(parentTree, root()))
+  model.onTransition(() => morph(parentTree, root()))
   root = function () {
     return template(model, ...arguments)
   }

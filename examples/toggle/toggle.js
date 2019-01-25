@@ -31,7 +31,7 @@ function template ({ actions, to, value }) {
 const toRender = couple(template, state)
 const routes = {
   '/toggle/index.html': toRender,
-  '/hello': function () { console.log(args) }
+  '/hello': null
 }
 
 attach('body', routes)
