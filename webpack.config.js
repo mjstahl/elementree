@@ -5,7 +5,7 @@ module.exports = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'elementree.umd.js',
+    filename: 'elementree.js',
     library: 'elementree',
     libraryTarget: 'umd'
   }

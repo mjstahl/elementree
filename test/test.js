@@ -14,8 +14,8 @@ test.cb('simple rendering of a paragraph', t => {
       </body>
     `
   }
-  prepare(template, state)
-  attach('body')
+
+  attach('body', prepare(template, state))
   ready(function () {
     t.is(document.querySelector('p').innerHTML, state.test.value)
     t.end()

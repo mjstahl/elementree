@@ -2,10 +2,11 @@
   "name": "elementree",
   "version": "0.7.7",
   "description": "Finite State Machines + JS Template Literals",
-  "main": "dist/elementree.umd.js",
+  "main": "dist/elementree.js",
   "module": "index.js",
   "scripts": {
     "build": "webpack && npm run size",
+    "develop": "parcel examples/*html",
     "lint": "standard --fix index.js test/**/*.js",
     "size": "size-limit",
     "test": "npm run lint && ava"
@@ -23,6 +24,7 @@
   "devDependencies": {
     "ava": "^1.1.0",
     "browser-env": "^3.2.5",
+    "parcel-bundler": "^1.11.0",
     "size-limit": "^0.21.1",
     "standard": "^12.0.1",
     "webpack": "^4.29.0",
@@ -40,7 +42,7 @@
   },
   "size-limit": [
     {
-      "path": "dist/elementree.umd.js",
+      "path": "dist/elementree.js",
       "limit": "6 KB"
     }
   ]

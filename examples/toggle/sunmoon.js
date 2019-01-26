@@ -1,6 +1,6 @@
 const { prepare, render } = require('../../index')
 
-function template (model, greeting) {
+function sunmoon (model, greeting) {
   if (greeting.toLowerCase() !== model.state) {
     model.to(model.actions.TOGGLE)
   }
@@ -20,5 +20,5 @@ const state = {
     TOGGLE: 'hello'
   }
 }
-module.exports = prepare(template, state)
+module.exports = prepare(sunmoon, state)
 

@@ -1,29 +1,38 @@
 const merge = require('nanomorph')
 const { Stated } = require('@mjstahl/stated')
-const ready = require('./ready')
-const routes = require('./routes')
 
-let parentTree; let rendering = false; let root; let router
-function attach (selector, paths) {
-  if (paths) {
-    router = routes(paths)
-    router.onTransition(({ value }) => {
-      root = value.view
-      merge(parentTree, root(value))
+const ready = require('./ready')
+const { register, route, view } = require('./router')
+
+let parentTree; let rendering = false; let root
+function attach (selector, paths, app = {}) {
+  let routes
+  if (typeof paths === 'function') {
+    root = paths
+  } else {
+    routes = register(paths, app)
+    routes.onTransition((updated) => {
+      root = view(updated)
+      merge(parentTree, root(updated.value))
     })
-    window.ROUTE = router
+    // window.ROUTER = route
+    root = (state) => view(routes)(state)
   }
   ready(() => {
     parentTree = (typeof selector === 'string')
       ? document.querySelector(selector)
       : selector
-    merge(parentTree, root())
+    const children = (routes) ? root(routes.value) : root()
+    merge(parentTree, children)
   })
 }
 
 function prepare (template, state) {
-  let model
+  let model; let name = template.name
   if (state) {
+    if (!state.initial) {
+      throw new Error(`The model for "${name}" must define an "initial" state.`)
+    }
     model = (state instanceof Stated) ? state : new Stated(state)
   }
   model && model.onTransition(() => {
@@ -31,12 +40,11 @@ function prepare (template, state) {
     rendering = true
     rendering = !merge(parentTree, root())
   })
-  root = function () {
+  return function () {
     return (model)
       ? template(model, ...arguments)
       : template(...arguments)
   }
-  return root
 }
 
 module.exports = {
@@ -45,6 +53,6 @@ module.exports = {
   prepare,
   ready,
   render: require('nanohtml'),
-  route: null,
+  route,
   state: Stated
 }

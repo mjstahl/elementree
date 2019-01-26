@@ -14,27 +14,36 @@ const state = {
   }
 }
 
-function template ({ actions, to, value }, app) {
+function toggle ({ actions, to, value }, app) {
   return render`
     <body>
       <p>${greeting(value)} ${sunmoon(value)}</p>
-      <button onclick=${toggle}>
+      <button onclick=${onToggle}>
         toggle
       </button>
     </body>
   `
 
-  function toggle () {
+  function onToggle () {
     to(actions.TOGGLE)
   }
 }
 
-const toRender = prepare(template, state)
-const routes = {
-  '/toggle/index.html': toRender,
-  '/hello': toRender
+function hello (app) {
+  return render`
+    <body>
+      <h1>HEEELLLOOO</h1>
+    </body>
+  `
 }
 
-ready(function () {
-  attach(document.body, routes)
-})
+attach('body', prepare(toggle, state))
+
+// const app = { firstname: "Mark" }
+// const routes = {
+//   '/toggle/index.html': prepare(toggle, state),
+//   '/hello': prepare(hello)
+// }
+// ready(function () {
+//   attach(document.body, routes, app)
+// })
