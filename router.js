@@ -2,19 +2,18 @@ const { Stated } = require('@mjstahl/stated')
 
 let appState, matches = {}
 function createMatch (route) {
-  const vx = '(:\\w+)'
-  const address = new RegExp(vx, 'g')
-  const vars = (route.match(address) || []).map((v) => v.slice(1))
-  matches[route.replace(address, vx)] = { route, vars }
+  varRegExp = new RegExp('(:\\w+)', 'g')
+  const vars = (route.match(varRegExp) || []).map((v) => v.slice(1))
+  const regex = route.replace(varRegExp, '(\\w+)')
+  matches[regex] = { regex, route, vars }
 }
 
 function match (pathname) {
-  // should probably return the whole object here
-  // that way we get the route, and we get the vars
-  // in case there is state we have to update
-  return Object.keys(matches).find(addr => {
+  const matched = Object.keys(matches).find(addr => {
+    addr = (addr === '*') ? '\\*' : addr
     return new RegExp(addr, 'g').test(pathname)
   })
+  return matches[matched]
 }
 
 function register (routes, state = {}) {
@@ -23,19 +22,25 @@ function register (routes, state = {}) {
     createMatch(route)
   })
   appState = new Stated(routes)
-  appState.initial = match(window.location.pathname) || '*'
+  const matched = match(window.location.pathname)
+  appState.initial = (matched && matched.route) || '*'
   return appState
 }
 
-function route (address, value) {
-  const route = match(address)
-  if (window.location.pathname !== route) {
-    window.history.pushState({}, null, route)
+function route (address, value = {}) {
+  const matched = match(address)
+  if (window.location.pathname !== matched) {
+    window.history.pushState({}, null, address)
   }
-  // once we find the correct route, we need to match
-  // it and relate the matched values to the variables
-  // that are held by <match>.vars
+  if (matched) {
+    const values = address.match(matched.regex).slice(1)
+    const routeValues = matched.vars.reduce((vals, prop, i) => {
+      return Object.assign(vals, { [prop]: values[i] })
+    }, {})
+    value = Object.assign(value, routeValues)
+  }
   try {
+    route = (matched && matched.route) || '*'
     appState.to(route, Object.assign(appState.value, value))
   } catch (e) {
     console.error(`"${address}" does not match a configured route.`)
@@ -45,5 +50,9 @@ function route (address, value) {
 function view (routes) {
   return routes.__states[routes.state].view
 }
+
+window.onpopstate = (function (route) {
+  return () => route(window.location.pathname)
+})(route)
 
 module.exports = { register, route, view }

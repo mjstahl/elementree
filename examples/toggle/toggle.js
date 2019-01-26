@@ -37,13 +37,32 @@ function hello (app) {
   `
 }
 
-attach('body', prepare(toggle, state))
+function helloWorld (app) {
+  return render`
+  <body>
+    <h1>Hello ${app.world}</h1>
+    <h1>Goodbye ${app.universe}
+  </body>
+  `
+}
 
-// const app = { firstname: "Mark" }
-// const routes = {
-//   '/toggle/index.html': prepare(toggle, state),
-//   '/hello': prepare(hello)
-// }
-// ready(function () {
-//   attach(document.body, routes, app)
-// })
+function notfound (app) {
+  return render`
+    <body>
+      <h1>NOT FOUND</h1>
+    </body>
+  `
+}
+
+// attach('body', prepare(toggle, state))
+
+const app = { firstname: "Mark" }
+const routes = {
+  '/toggle/index.html': prepare(toggle, state),
+  '/hello/:world/goodbye/:universe': prepare(helloWorld),
+  '/hello': prepare(hello),
+  '*': prepare(notfound)
+}
+ready(function () {
+  attach(document.body, routes, app)
+})
