@@ -36,6 +36,5 @@ const state = {
   }
 }
 
-prepare(template, state)
-attach('body')
+attach('body', prepare(template, state))
 ```
