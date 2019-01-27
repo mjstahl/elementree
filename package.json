@@ -5,7 +5,7 @@
   "main": "dist/elementree.js",
   "module": "index.js",
   "scripts": {
-    "build": "webpack && npm run size",
+    "build": "npm run test && webpack && npm run size",
     "develop": "parcel examples/*html",
     "lint": "standard --fix index.js test/**/*.js",
     "release:patch": "npm version patch && npm run build && npm publish",
