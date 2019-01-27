@@ -15,7 +15,6 @@ function attach (selector, paths, app = {}) {
       root = view(updated)
       merge(parentTree, root(updated.value))
     })
-    window.ROUTER = route
     root = (state) => view(routes)(state)
   }
   ready(() => {
