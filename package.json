@@ -8,6 +8,9 @@
     "build": "webpack && npm run size",
     "develop": "parcel examples/*html",
     "lint": "standard --fix index.js test/**/*.js",
+    "release:patch": "npm version patch && npm run build && npm publish",
+    "release:minor": "npm version minor && npm run build && npm publish",
+    "release:major": "npm version major && npm run build && npm publish",
     "size": "size-limit",
     "test": "npm run lint && ava"
   },
