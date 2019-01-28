@@ -1,4 +1,4 @@
-const { attach, prepare, ready, render } = require('../../index')
+const { attach, prepare, ready, render } = require('../../lib/index')
 const greeting = require('./greeting')
 const sunmoon = require('./sunmoon')
 

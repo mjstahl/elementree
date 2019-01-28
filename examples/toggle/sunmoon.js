@@ -1,4 +1,4 @@
-const { prepare, render } = require('../../index')
+const { prepare, render } = require('../../lib/index')
 
 function sunmoon (model, greeting) {
   if (greeting.toLowerCase() !== model.state) {
