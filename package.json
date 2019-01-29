@@ -6,7 +6,6 @@
   "module": "lib/index.js",
   "scripts": {
     "build": "webpack && npm run size",
-    "develop": "parcel examples/*html",
     "lint": "standard --fix lib/*.js",
     "release:patch": "npm version patch && npm run build && npm publish",
     "release:minor": "npm version minor && npm run build && npm publish",
@@ -24,7 +23,6 @@
   },
   "homepage": "https://github.com/mjstahl/elementree#readme",
   "devDependencies": {
-    "parcel-bundler": "^1.11.0",
     "size-limit": "^0.21.1",
     "standard": "^12.0.1",
     "webpack": "^4.29.0",
