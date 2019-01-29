@@ -11,7 +11,7 @@
     "release:minor": "npm version minor && npm run build && npm publish",
     "release:major": "npm version major && npm run build && npm publish",
     "size": "size-limit",
-    "test": "npm run lint && browserify test.js | tape-run"
+    "test": "browserify test.js | tape-run"
   },
   "repository": {
     "type": "git",
