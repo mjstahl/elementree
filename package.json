@@ -6,7 +6,7 @@
   "module": "lib/index.js",
   "scripts": {
     "build": "npm run test && webpack && npm run size",
-    "lint": "standard --fix lib/*.js",
+    "lint": "standard --fix lib/*.js test.js",
     "release:patch": "npm version patch && npm run build && npm publish",
     "release:minor": "npm version minor && npm run build && npm publish",
     "release:major": "npm version major && npm run build && npm publish",

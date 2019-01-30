@@ -38,7 +38,7 @@ test('passing arguments to child', t => {
 
 test('render simple template with state', t => {
   t.plan(2)
-  const state = { initial: 'test', test: { value: 'Hello' }}
+  const state = { initial: 'test', test: { value: 'Hello' } }
   function template ({ value }) {
     t.ok(arguments.length, 2, 'model and appstate was passed to root renderer')
     return render`<body><p>${value}</p></body>`
@@ -51,7 +51,7 @@ test('render simple template with state', t => {
 })
 
 test('passing args to child with state', t => {
-  const childState = { initial: 'test', test: { value: 'World' }}
+  const childState = { initial: 'test', test: { value: 'World' } }
   function childTemplate ({ value }, parent) {
     t.ok(arguments.length, 2, 'child model and parent arguments passed to child')
     return render`
@@ -60,7 +60,7 @@ test('passing args to child with state', t => {
   }
   const child = prepare(childTemplate, childState)
 
-  const parentState = { initial: 'test', test: { value: 'Hello' }}
+  const parentState = { initial: 'test', test: { value: 'Hello' } }
   function parentTemplate ({ value }) {
     return render`
       <body>
