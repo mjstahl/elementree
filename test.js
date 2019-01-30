@@ -14,6 +14,28 @@ test('render simple template', t => {
   })
 })
 
+test('passing arguments to child', t => {
+  t.plan(3)
+  function child (fromParent) {
+    t.ok(arguments.length, 1, 'child does not include state')
+    return render`<p id="child">${fromParent}</p>`
+  }
+  function parent () {
+    return render`
+      <body>
+        <p id="parent">Hello</p>
+        ${child('World')}
+      </body>
+    `
+  }
+  attach('body', prepare(parent))
+  ready(() => {
+    t.equal(document.querySelector('#parent').innerHTML, 'Hello')
+    t.equal(document.querySelector('#child').innerHTML, 'World')
+    t.end()
+  })
+})
+
 test('render simple template with state', t => {
   t.plan(2)
   const state = { initial: 'test', test: { value: 'Hello' }}
@@ -24,6 +46,67 @@ test('render simple template with state', t => {
   attach('body', prepare(template, state))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, state.test.value)
+    t.end()
+  })
+})
+
+test('passing args to child with state', t => {
+  const childState = { initial: 'test', test: { value: 'World' }}
+  function childTemplate ({ value }, parent) {
+    t.ok(arguments.length, 2, 'child model and parent arguments passed to child')
+    return render`
+      <p id="child">${parent} ${value}</p>
+    `
+  }
+  const child = prepare(childTemplate, childState)
+
+  const parentState = { initial: 'test', test: { value: 'Hello' }}
+  function parentTemplate ({ value }) {
+    return render`
+      <body>
+        <p id="parent">${value}</p>
+        ${child('Brave New')}
+      </body>
+    `
+  }
+  attach('body', prepare(parentTemplate, parentState))
+  ready(function () {
+    t.equal(document.querySelector('#parent').innerHTML, 'Hello')
+    t.equal(document.querySelector('#child').innerHTML, 'Brave New World')
+    t.end()
+  })
+})
+
+test('re-render on state change', t => {
+  t.plan(1)
+  function template (model) {
+    return render`
+      <body>
+        <p>${model.value}</p>
+        <button onclick=${toggle}>
+          Toggle
+        </button>
+      </body>
+    `
+    function toggle () {
+      model.to(model.actions.TOGGLE)
+    }
+  }
+  const state = {
+    initial: 'hello',
+    hello: {
+      value: 'Hello',
+      TOGGLE: 'goodbye'
+    },
+    goodbye: {
+      value: 'Goodbye',
+      TOGGLE: 'hello'
+    }
+  }
+  attach('body', prepare(template, state))
+  ready(function () {
+    document.querySelector('button').click()
+    t.equal(document.querySelector('p').innerHTML, state.goodbye.value)
     t.end()
   })
 })
