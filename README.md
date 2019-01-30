@@ -18,7 +18,15 @@ $ npm install --save elementree
 ```js
 import elementree from 'elementree'
 
-import { attach, html, prepare, ready, render, route, State } from 'elementree'
+import {
+  attach,             // mount a view + app state to a selector
+  html,               // don't escape HTML
+  prepare,            // setup the rendering of a template with its state
+  ready,              // DOM is setup and ready to render on
+  render,             // render JS template strings as HTML
+  route,              // change the route
+  State               // a modules state - the FSM
+} from 'elementree'
 ```
 
 ## A Simple Toggle Example
