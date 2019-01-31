@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mjstahl/elementree.svg?branch=master)](https://travis-ci.com/mjstahl/elementree)
+
 # Elementree
 > "Make everything as simple as possible, but not simpler."
 
@@ -19,13 +21,13 @@ $ npm install --save elementree
 import elementree from 'elementree'
 
 import {
-  attach,             // mount a view + app state to a selector
-  html,               // don't escape HTML
-  prepare,            // setup the rendering of a template with its state
-  ready,              // DOM is setup and ready to render on
-  render,             // render JS template strings as HTML
-  route,              // change the route
-  State               // a modules state - the FSM
+  attach,   // mount a view + app state to a selector
+  html,     // don't escape HTML
+  prepare,  // setup the rendering of a template with its state
+  ready,    // DOM is setup and ready to render on
+  render,   // render JS template strings as HTML
+  route,    // change the route
+  State     // a modules state - the FSM
 } from 'elementree'
 ```
 
