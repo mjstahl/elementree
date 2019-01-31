@@ -78,11 +78,12 @@ test('passing args to child with state', t => {
 })
 
 test('re-render on state change', t => {
-  t.plan(1)
-  function template (model) {
+  t.plan(3)
+  function template (model, app) {
+    t.ok(app, 'appstate is defined')
     return render`
       <body>
-        <p>${model.value}</p>
+        <p>${model.value} ${app.user.first} ${app.user.last}</p>
         <button onclick=${toggle}>
           Toggle
         </button>
@@ -103,10 +104,14 @@ test('re-render on state change', t => {
       TOGGLE: 'hello'
     }
   }
-  attach('body', prepare(template, state))
+  const app = {
+    user: { first: 'Mark', last: 'Stahl' }
+  }
+  attach('body', prepare(template, state), app)
   ready(function () {
     document.querySelector('button').click()
-    t.equal(document.querySelector('p').innerHTML, state.goodbye.value)
+    const result = `${state.goodbye.value} ${app.user.first} ${app.user.last}`
+    t.equal(document.querySelector('p').innerHTML, result)
     t.end()
   })
 })
