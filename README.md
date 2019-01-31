@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/mjstahl/elementree.svg?branch=master)](https://travis-ci.com/mjstahl/elementree)
-
 # Elementree
 > "Make everything as simple as possible, but not simpler."
 
