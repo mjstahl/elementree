@@ -1,13 +1,21 @@
 # Elementree
 > "Make everything as simple as possible, but not simpler."
 
-Elementree is a very small (< 6KB) front-end JS "framework" created to test
-the use of Finite State Machines as a means of taking a design and directly
-translating it into state management.
+Elementree is a very small front-end JavaScript "framework" created to test
+the use of Finite State Machines for state management.
 
-The concepts introduced and used during development are deliberately kept small
-in number and complexity as to focus on the process of breaking down an
-application as opposed to learning a framework.
+## Features
+
+* Tiny size. Elementree is less than 6 KB when compressed.
+* Minimal cognitive overhead. Less framework means more time to focus on the problem domain.
+* Process-focused. The use of Finite State Machines for state provides the right level of constraint.
+* It's just JavaScript. Nothing fancy, just functions, objects, and template strings.
+
+## Philosophy
+
+You know that a technique is no longer bleeding-edge when a standards body decides to get involved. This is the case for web components. Thankfully we all have accepted that a "divde and conquer" approach to web development is a best practice, but that is where it seems to end. The jury is still out on how we handle application and component state and how they relate to each other. Elementree focuses on using Finite state machines (FSM) to manage application and component state. FSM's are a natural translation of a designer's mockups into a developer's implementation.
+
+For some, FSMs seem natural from a process perspective, while for others, they are alien in concept. Therefore, the APIs introduced in Elementree and used during development are deliberately kept small in number and complexity. This fosters focus on the problem domain and process, as opposed to the glory of the framework.
 
 ## Installation
 
@@ -19,17 +27,17 @@ $ npm install --save elementree
 import elementree from 'elementree'
 
 import {
-  attach,   // mount a view + app state to a selector
+  attach,   // mount a view and app state to a selector
   html,     // don't escape HTML
   prepare,  // setup the rendering of a template with its state
   ready,    // DOM is setup and ready to render on
   render,   // render JS template strings as HTML
   route,    // change the route
-  State     // a modules state - the FSM
+  State     // a view's state, as a finite state machine
 } from 'elementree'
 ```
 
-## A Simple Toggle Example
+## Example
 
 ```js
 import { attach, prepare, render } from 'elementree'
@@ -69,3 +77,61 @@ const app = {
 
 attach('body', prepare(template, state), app)
 ```
+
+## API
+
+`attach(to: String | HTMLElement, renderer: Function | Object [, state: Object])`
+
+`attach` wires up a renderer and an optional object representing an application
+state and attaches it to a selector or DOM element. Simply put, `attach` renders
+your root template to the DOM.
+
+The first argument to `attach` can be a string which will be used by
+`document.querySelector`, after `DOMContentLoaded`, is  to find root element. The
+first argument can also be an `HTMLElement`. If so, it should be used within
+the `ready` callback to ensure the element exists.
+
+The second argument is the renderer. This argument can be a `Function` such as
+one returned a `prepared` call, or an object. Passing a function is usually done
+when routing is not used and there is one root template. Elementree expects
+the object passed to have a specific form which is covered in "routing" section.
+
+The third, optional, argument is an object representing the application's state.
+This object will passed to the renderer as an argument.
+
+
+`html(unescape: String) -> String`
+
+Use `html` to interpolate HTML, without escaping it, directly into your template.
+
+
+`prepare(template: Function [, model: Object | Stated]) -> Function`
+
+Create a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is a Stated object or
+an object that Stated can accept.
+
+The arguments to a template greater depend on rule:
+
+If the template function is prepared with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+
+
+`ready(callback: Function)`
+
+Execute the callback function once the DOM has loaded. If the DOM is already loaded, the callback will be called on the next tick.
+
+
+`render(template: String) -> HTMLElement | DocumentFragment`
+
+A tagged template function. Turn a JavaScript template string into an `HTMLElement`. If the template has more than one root element a `DocumentFragment` is returned.
+
+
+`route(to: String [, state: Object])`
+
+Change the route to string provided. The optional second argument will be merged with
+current application state.
+
+
+`new State(states: Object) -> Stated`
+
+Refer to [@mjstahl/stated](https://github.com/mjstahl/stated) for a complete
+overview of Stated's API.

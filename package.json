@@ -23,6 +23,23 @@
     "url": "https://github.com/mjstahl/elementree/issues"
   },
   "homepage": "https://github.com/mjstahl/elementree#readme",
+  "keywords": [
+    "client",
+    "minimal",
+    "frontend",
+    "framework",
+    "state machine",
+    "fsm",
+    "finite state machine",
+    "finite automata",
+    "pda",
+    "pushdown automata",
+    "html",
+    "template",
+    "template strings",
+    "small",
+    "tiny"
+  ],
   "devDependencies": {
     "browserify": "^16.2.3",
     "size-limit": "^0.21.1",
