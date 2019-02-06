@@ -1,5 +1,5 @@
 const test = require('tape')
-const { attach, prepare, ready, render } = require('./lib/index')
+const { attach, prepare, ready, render } = require('./index')
 
 test('render simple template', t => {
   t.plan(2)
