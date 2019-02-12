@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mjstahl/elementree.git"
+    "url": "git+https://github.com/elementreejs/elementree.git"
   },
   "author": "Mark Stahl <mjstahl@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mjstahl/elementree/issues"
+    "url": "https://github.com/elementreejs/elementree/issues"
   },
-  "homepage": "https://github.com/mjstahl/elementree#readme",
+  "homepage": "https://github.com/elementreejs/elementree#readme",
   "keywords": [
     "client",
     "minimal",
