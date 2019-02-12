@@ -29,13 +29,14 @@ $ npm install --save elementree
 import elementree from 'elementree'
 
 import {
-  attach,   // mount a view and app state to a selector
-  html,     // don't escape HTML
-  prepare,  // setup the rendering of a template with its state
-  ready,    // DOM is setup and ready to render on
-  render,   // render JS template strings as HTML
-  route,    // change the route
-  State     // a view's state, as a finite state machine
+  attach,       // mount a view and app state to a selector
+  forceUpdate,  // force a render of the root
+  html,         // don't escape HTML
+  prepare,      // setup the rendering of a template with its state
+  ready,        // DOM is setup and ready to render on
+  render,       // render JS template strings as HTML
+  route,        // change the route
+  State         // a view's state, as a finite state machine
 } from 'elementree'
 ```
 
@@ -100,6 +101,11 @@ the object passed to have a specific form which is covered in "routing" section.
 
 The third, optional, argument is an object representing the application's state.
 This object will passed to the renderer as an argument.
+
+
+`forceUpdate() -> Void`
+
+Force a render, starting at the root view. Generally this is used when only updating a value in the application state and not updating the model of a view (which triggers a render).
 
 
 `html(unescape: String) -> String`

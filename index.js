@@ -28,6 +28,10 @@ function attach (selector, paths, app = {}) {
   })
 }
 
+function forceUpdate () {
+  merge(parentTree, root())
+}
+
 function prepare (template, state) {
   let model; let name = template.name
   if (state) {
@@ -50,6 +54,7 @@ function prepare (template, state) {
 
 module.exports = {
   attach,
+  forceUpdate,
   html: require('nanohtml/raw'),
   prepare,
   ready,

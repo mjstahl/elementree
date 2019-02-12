@@ -1,5 +1,5 @@
 const test = require('tape')
-const { attach, prepare, ready, render } = require('./index')
+const { attach, forceUpdate, prepare, ready, render } = require('./index')
 
 test('render simple template', t => {
   t.plan(2)
@@ -111,6 +111,34 @@ test('re-render on state change', t => {
   ready(function () {
     document.querySelector('button').click()
     const result = `${state.goodbye.value} ${app.user.first} ${app.user.last}`
+    t.equal(document.querySelector('p').innerHTML, result)
+    t.end()
+  })
+})
+
+test('change appstate and forceUpdate', t => {
+  function template (app) {
+    t.ok(app, 'appstate is defined')
+    return render`
+      <body>
+        <p>${app.user.first} ${app.user.last}</p>
+        <button onclick=${toggle}>
+          Toggle
+        </button>
+      </body>
+    `
+    function toggle () {
+      app.user.first = 'Terri'
+      forceUpdate()
+    }
+  }
+  const app = {
+    user: { first: 'Mark', last: 'Stahl' }
+  }
+  attach('body', prepare(template), app)
+  ready(function () {
+    document.querySelector('button').click()
+    const result = `Terri ${app.user.last}`
     t.equal(document.querySelector('p').innerHTML, result)
     t.end()
   })
