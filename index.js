@@ -15,8 +15,8 @@ function attach (selector, paths, app = {}) {
   } else {
     routes = register(paths, app)
     routes.onTransition((updated) => {
-      root = view(updated)
-      merge(parentTree, root(updated.value))
+      root = () => view(updated)(updated.value)
+      merge(parentTree, root())
     })
     root = () => view(routes)(routes.value)
   }

@@ -1,6 +1,8 @@
 const { Stated } = require('@mjstahl/stated')
 
-let appState; let matches = {}
+let appState = null
+let matches = {}
+
 function createMatch (route) {
   const varRegExp = new RegExp('(:\\w+)', 'g')
   const vars = (route.match(varRegExp) || []).map((v) => v.slice(1))
@@ -17,6 +19,7 @@ function match (pathname) {
 }
 
 function register (routes, state = {}) {
+  state.route = {}
   Object.keys(routes).forEach(route => {
     routes[route] = { view: routes[route], value: state }
     createMatch(route)
@@ -27,23 +30,26 @@ function register (routes, state = {}) {
   return appState
 }
 
-function route (address, value = {}) {
-  const matched = match(address)
+function route (addr, value = {}) {
+  const matched = match(addr)
   if (window.location.pathname !== matched) {
-    window.history.pushState({}, null, address)
+    window.history.pushState({}, null, addr)
   }
   if (matched) {
-    const values = address.match(matched.regex).slice(1)
+    const values = addr.match(matched.regex).slice(1)
     const routeValues = matched.vars.reduce((vals, prop, i) => {
       return Object.assign(vals, { [prop]: values[i] })
     }, {})
-    value = Object.assign(value, routeValues)
+    value.route = routeValues
+  } else {
+    value.route = {}
   }
   try {
     const routeTo = (matched && matched.route) || '*'
-    appState.to(routeTo, Object.assign(appState.value, value))
+    appState.to(routeTo,
+      Object.assign(appState.value, value))
   } catch (e) {
-    console.error(`"${address}" does not match a configured route.`)
+    console.error(`"${addr}" does not match a configured route.`)
   }
 }
 
