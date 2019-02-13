@@ -1,6 +1,6 @@
 {
   "name": "elementree",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Finite State Machines + JS Template Literals",
   "main": "dist/elementree.js",
   "module": "index.js",
