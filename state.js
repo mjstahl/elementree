@@ -39,10 +39,10 @@ module.exports = class StateMachine {
   get transition () {
     const fns = {}
     Object.keys(fns).forEach(k => delete fns[k])
-
     this._possibleStates.reduce((fns, state) => {
       fns[`to${capitalize(camelCase(state))}`] = ((to) => {
-        return (updateValue) => this._transition(to, updateValue)
+        const newState = (to === 'current') ? this.state : to
+        return (updateValue) => this._transition(newState, updateValue)
       })(state)
       return fns
     }, fns)
@@ -64,12 +64,14 @@ module.exports = class StateMachine {
 
   get _actions () {
     const state = this._states[this.state]
-    return Object.keys(state)
+    const actions = Object.keys(state)
       .filter(p => !['value', 'to'].includes(p))
       .reduce((actions, a) => {
         actions[a] = state[a]
         return actions
       }, {})
+    actions['current'] = this.state
+    return actions
   }
 
   get _possibleStates () {
@@ -79,12 +81,13 @@ module.exports = class StateMachine {
       possible = Object.values(this._actions)
     }
     if (!Array.isArray(possible)) possible = [possible]
+    possible.push('current')
     return possible
   }
 
   _transition (to, updateValue) {
     const available = this._possibleStates.includes(to)
-    if (!available) {
+    if (!available && to !== this.state) {
       throw new Error(`"${to}" does not exist as an action of "${this.state}"`)
     }
     if (!this._states[to]) {

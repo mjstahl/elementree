@@ -65,6 +65,22 @@ test('transition is also an object with state functions', t => {
   t.end()
 })
 
+test('update transition to the current state (active)', t => {
+  const state = new StateMachine(H2O())
+  state.transition.current('65F')
+  t.equal(state.state, 'liquid')
+  t.equal(state.value, '65F')
+  t.end()
+})
+
+test('update transition to the current state (passive)', t => {
+  const state = new StateMachine(H2O())
+  state.transition.toCurrent('65F')
+  t.equal(state.state, 'liquid')
+  t.equal(state.value, '65F')
+  t.end()
+})
+
 test('update primitive value with a primitive', t => {
   const state = new StateMachine(H2O())
   state.transition.toSolid('30F')

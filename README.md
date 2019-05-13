@@ -115,8 +115,6 @@ prepare(template: Function [, model: Object | Stated]) -> Function
 Create a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is a Stated object or
 an object that Stated can accept.
 
-The arguments to a template greater depend on rule:
-
 If the template function is prepared with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
 
 
@@ -211,7 +209,7 @@ transitioning using the string names. In the example above, when in the `liquid`
 If the value argument is an Object, the state's `value` and value argument will be merged. If the the state's `value` is not an Object, the state's `value` will be replaced with the value argument. If the state's `value` is a primitive and the value argument is an object, the state's `value` will be set to the value argument including a property named `value` set to the state's previous primitive value.
 
 ```js
-<StateMachine>.onTransition(callback: Function) -> unsubscribe: Function
+.onTransition(callback: Function) -> unsubscribe: Function
 ```
 
-When a state machine transitions from one state to another all callbacks passed to the `onTransition` function are evaluated with the state machine object passed as the only argument to the callback. `onTransition` returns a function that unsubscribes the callback when executed.
+When a state machine transitions from one state to another all callbacks passed to the `onTransition` callbacks are evaluated with the state machine object passed as the only argument to the callback. `onTransition` returns a function that unsubscribes the callback when executed.
