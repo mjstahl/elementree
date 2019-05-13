@@ -1,5 +1,5 @@
 const test = require('tape')
-const { attach, forceUpdate, prepare, ready, render } = require('./index')
+const { attach, forceUpdate, prepare, ready, render } = require('../index')
 
 test('render simple template', t => {
   t.plan(2)
@@ -90,18 +90,18 @@ test('re-render on state change', t => {
       </body>
     `
     function toggle () {
-      model.to(model.actions.TOGGLE)
+      model.transition.toggle()
     }
   }
   const state = {
     initial: 'hello',
     hello: {
       value: 'Hello',
-      TOGGLE: 'goodbye'
+      toggle: 'goodbye'
     },
     goodbye: {
       value: 'Goodbye',
-      TOGGLE: 'hello'
+      toggle: 'hello'
     }
   }
   const app = {
@@ -118,7 +118,7 @@ test('re-render on state change', t => {
 
 test('change appstate and forceUpdate', t => {
   function template (app) {
-    t.ok(app, 'appstate is defined')
+    t.ok(app.user, 'appstate user is defined')
     return render`
       <body>
         <p>${app.user.first} ${app.user.last}</p>

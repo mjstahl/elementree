@@ -8,16 +8,14 @@ with the use of Finite State Machines for state management.
 
 ## Features
 
-* Tiny size. Elementree is less than 6 KB when compressed.
+* Tiny size. Elementree is less than 8 KB when compressed.
 * Minimal cognitive overhead. Less framework means more time to focus on the problem domain.
 * Process-focused. The use of Finite State Machines for state provides the right level of constraint.
 * It's just JavaScript. Nothing fancy, just functions, objects, and template strings.
 
 ## Philosophy
 
-The jury is still out on how we handle application and component state and how they relate to each other. Elementree focuses on using Finite state machines (FSM) to manage application and component state. FSM's are a natural translation of a designer's mockups into a developer's implementation.
-
-For some, FSMs seem natural from a process perspective, while for others, they are alien in concept. Therefore, the APIs introduced in Elementree and used during development are deliberately kept small in number and complexity. This fosters focus on the problem domain and process, as opposed to the glory of the framework.
+Elementree focuses on using Finite state machines (FSM) to manage application and component state. FSM's are a natural translation of a designer's mockups into a developer's implementation. The APIs introduced in Elementree and used during development are deliberately kept small in number and complexity. This fosters focus on the problem domain and process, as opposed to the glory of the framework.
 
 ## Installation
 
@@ -54,7 +52,7 @@ function template (model, app) {
   `
 
   function toggle () {
-    model.to(model.actions.TOGGLE)
+    model.transition.toggle()
   }
 }
 
@@ -63,11 +61,11 @@ const state = {
   initial: 'hello',
   hello: {
     value: 'Hello',
-    TOGGLE: 'goodbye'
+    toggle: 'goodbye'
   },
   goodbye: {
     value: 'Goodbye',
-    TOGGLE: 'hello'
+    toggle: 'hello'
   }
 }
 
@@ -79,7 +77,7 @@ const app = {
 attach('body', prepare(template, state), app)
 ```
 
-## API
+## Elementree API
 
 ```js
 attach(to: String | HTMLElement, renderer: Function | Object [, state: Object])
@@ -142,3 +140,78 @@ route(to: String [, state: Object])
 
 Change the route to string provided. The optional second argument will be merged with
 current application state.
+
+## State API
+
+A valid state machine object must have, at a minimum, a single state. And an `initial` property which is set to a valid state property.
+
+There are two types of state machine definitions: "active" and passive. If the definition includes names for each valid transition it is an "active" definition and the `transition` property will include "active" functions (like `freeze()` and `boil()`). An example of an "active" definition is:
+
+```js
+{
+  initial: 'liquid',
+  liquid: {
+    freeze: 'solid',
+    boil: 'gas',
+    value: '60F'
+  },
+  solid: {
+    melt: 'liquid',
+    value: '32F'
+  },
+  gas: {
+    chill: 'liquid'
+    value: '212F'
+  }
+}
+```
+
+A "passive" definition uses the `to` property on each state indicating one or more valid states the current state can transition to. For a "passive" definition, the `transition` property will only include "passive" functions (like `toSolid` and `toGas`). An example of an "passive" definition is:
+
+```js
+{
+  initial: 'liquid',
+  liquid: {
+    to: ['solid', 'gas']
+    value: '60F'
+  },
+  solid: {
+    to: 'liquid'
+    value: '32F'
+  },
+  gas: {
+    to: 'liquid'
+    value: '212F'
+  }
+}
+```
+
+
+```js
+.state -> String
+```
+
+Return the name of the current state of the state machine.
+
+
+```js
+.value -> Any
+```
+
+`value` returns the value (object or primitive) of the current state if one exists and returns `undefined` if not.
+
+
+```js
+.transition -> Object
+```
+
+`transition` is an object with a collection of functions allowing the developer to avoid
+transitioning using the string names. In the example above, when in the `liquid` state, two passive and two active functions exist on `transition`. The passive functions are `transition.toSolid`, `transition.toGas`. The two active functions are `transition.freeze` and `transition.boil`. All state specific functions on `transition` accept a single `value` argument.
+
+If the value argument is an Object, the state's `value` and value argument will be merged. If the the state's `value` is not an Object, the state's `value` will be replaced with the value argument. If the state's `value` is a primitive and the value argument is an object, the state's `value` will be set to the value argument including a property named `value` set to the state's previous primitive value.
+
+```js
+<StateMachine>.onTransition(callback: Function) -> unsubscribe: Function
+```
+
+When a state machine transitions from one state to another all callbacks passed to the `onTransition` function are evaluated with the state machine object passed as the only argument to the callback. `onTransition` returns a function that unsubscribes the callback when executed.

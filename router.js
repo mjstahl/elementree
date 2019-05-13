@@ -1,4 +1,4 @@
-const { Stated } = require('@mjstahl/stated')
+const StateMachine = require('./state')
 
 let appState = null
 let matches = {}
@@ -24,7 +24,7 @@ function register (routes, state = {}) {
     routes[route] = { view: routes[route], value: state }
     createMatch(route)
   })
-  appState = new Stated(routes)
+  appState = new StateMachine(routes)
   const matched = match(window.location.pathname)
   appState.initial = (matched && matched.route) || '*'
   return appState
