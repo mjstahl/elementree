@@ -1,5 +1,7 @@
 const test = require('tape')
-const { attach, forceUpdate, prepare, ready, render } = require('../index')
+const { attach, prepare, render } = require('../index')
+const ready = require('../ready')
+
 
 test('render simple template', t => {
   t.plan(2)
@@ -38,20 +40,20 @@ test('passing arguments to child', t => {
 
 test('render simple template with state', t => {
   t.plan(2)
-  const state = { initial: 'test', test: { value: 'Hello' } }
+  const state = { value: 'Hello' }
   function template ({ value }) {
     t.ok(arguments.length, 2, 'model and appstate was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
   attach('body', prepare(template, state))
   ready(function () {
-    t.equal(document.querySelector('p').innerHTML, state.test.value)
+    t.equal(document.querySelector('p').innerHTML, state.value)
     t.end()
   })
 })
 
 test('passing args to child with state', t => {
-  const childState = { initial: 'test', test: { value: 'World' } }
+  const childState = { value: 'World' }
   function childTemplate ({ value }, parent) {
     t.ok(arguments.length, 2, 'child model and parent arguments passed to child')
     return render`
@@ -60,7 +62,7 @@ test('passing args to child with state', t => {
   }
   const child = prepare(childTemplate, childState)
 
-  const parentState = { initial: 'test', test: { value: 'Hello' } }
+  const parentState = { value: 'Hello' }
   function parentTemplate ({ value }) {
     return render`
       <body>
@@ -90,19 +92,11 @@ test('re-render on state change', t => {
       </body>
     `
     function toggle () {
-      model.transition.toggle()
+      model.value = 'Goodbye'
     }
   }
   const state = {
-    initial: 'hello',
-    hello: {
-      value: 'Hello',
-      toggle: 'goodbye'
-    },
-    goodbye: {
-      value: 'Goodbye',
-      toggle: 'hello'
-    }
+    value: 'Hello'
   }
   const app = {
     user: { first: 'Mark', last: 'Stahl' }
@@ -110,35 +104,7 @@ test('re-render on state change', t => {
   attach('body', prepare(template, state), app)
   ready(function () {
     document.querySelector('button').click()
-    const result = `${state.goodbye.value} ${app.user.first} ${app.user.last}`
-    t.equal(document.querySelector('p').innerHTML, result)
-    t.end()
-  })
-})
-
-test('change appstate and forceUpdate', t => {
-  function template (app) {
-    t.ok(app.user, 'appstate user is defined')
-    return render`
-      <body>
-        <p>${app.user.first} ${app.user.last}</p>
-        <button onclick=${toggle}>
-          Toggle
-        </button>
-      </body>
-    `
-    function toggle () {
-      app.user.first = 'Terri'
-      forceUpdate()
-    }
-  }
-  const app = {
-    user: { first: 'Mark', last: 'Stahl' }
-  }
-  attach('body', prepare(template), app)
-  ready(function () {
-    document.querySelector('button').click()
-    const result = `Terri ${app.user.last}`
+    const result = `Goodbye ${app.user.first} ${app.user.last}`
     t.equal(document.querySelector('p').innerHTML, result)
     t.end()
   })

@@ -1,57 +1,37 @@
 const merge = require('nanomorph')
-
-const StateMachine = require('./state')
+const onChange = require('on-change')
 const ready = require('./ready')
-const { register, route, view } = require('./router')
 
-let parentTree = null
 let rendering = false
 let root = null
+let tree = null
 
-function attach (selector, paths, app = {}) {
-  if (typeof paths === 'function') {
-    root = () => paths(app)
-  } else {
-    let routes = register(paths, app)
-    routes.onTransition((updated) => {
-      root = () => view(updated)(updated.value)
-      merge(parentTree, root())
-    })
-    root = () => view(routes)(routes.value)
-  }
-  ready(() => {
-    parentTree = (typeof selector === 'string')
-      ? document.querySelector(selector)
-      : selector
-    rendering = true
-    rendering = !merge(parentTree, root())
-  })
+function __renderer () {
+  if (rendering) { return }
+  rendering = true
+  rendering = !merge(root, tree())
 }
 
-function forceUpdate () {
-  merge(parentTree, root())
+function attach (selector, prepared, app = {}) {
+  const model = onChange(app, __renderer)
+  tree = () => prepared(model)
+  ready(() => {
+    root = (typeof selector === 'string')
+      ? document.querySelector(selector)
+      : selector
+    __renderer()
+  })
 }
 
 function prepare (template, state) {
   if (!state) return (...args) => template(...args)
-  if (!state.initial) {
-    throw new Error(`The model for "${template.name}" must define an "initial" state.`)
-  }
-  let model = new StateMachine(state)
-  model && model.onTransition(() => {
-    if (rendering) { return }
-    rendering = true
-    rendering = !merge(parentTree, root())
-  })
+  const model = onChange(state, __renderer)
   return (...args) => template(model, ...args)
 }
 
 module.exports = {
   attach,
-  forceUpdate,
   html: require('nanohtml/raw'),
   prepare,
-  ready,
-  render: require('nanohtml'),
-  route
+  render: require('nanohtml')
 }
