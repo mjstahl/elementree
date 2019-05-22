@@ -3,7 +3,7 @@
   "version": "0.15.3",
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
-  "module": "index.js",
+  "module": "elementree.js",
   "scripts": {
     "build": "npm run test && npm run bundle && npm run size",
     "bundle": "browserify -p tinyify elementree.js > dist/elementree.js",
@@ -45,6 +45,7 @@
     "tinyify": "^2.5.0"
   },
   "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
     "nanohtml": "^1.6.2",
     "nanomorph": "^5.4.0",
     "on-change": "github:sindresorhus/on-change"
@@ -52,7 +53,7 @@
   "size-limit": [
     {
       "path": "dist/elementree.js",
-      "limit": "4 KB"
+      "limit": "7 KB"
     }
   ]
 }
