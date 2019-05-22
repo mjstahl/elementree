@@ -1,7 +1,7 @@
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)  [![Build Status](https://travis-ci.com/mjstahl/elementree.svg?branch=master)](https://travis-ci.com/mjstahl/elementree)
 
 # Elementree
-> "Make the simple things easy and the hard things possible."
+> "Less framework, more work."
 
 Elementree is a very extremely small front-end JavaScript "framework" with a focus
 on staying "Just JavaScript" and getting the job done with the mimimum amount of
@@ -24,13 +24,11 @@ $ npm install --save elementree
 ```
 
 ```js
-import elementree from 'elementree'
-
 import {
-  merge,       // mount a view and app state to a selector
-  join,      // setup the rendering of a template with its state
-  html,         // don't escape HTML
-  render,       // render JS template strings as HTML
+  merge,   // mount a view and app state to a selector
+  join,    // setup the rendering of a template with its state
+  html,    // don't escape HTML
+  render,  // render JS template strings as HTML
 } from 'elementree'
 ```
 
