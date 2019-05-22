@@ -27,9 +27,9 @@ $ npm install --save elementree
 import elementree from 'elementree'
 
 import {
-  attach,       // mount a view and app state to a selector
+  merge,       // mount a view and app state to a selector
+  join,      // setup the rendering of a template with its state
   html,         // don't escape HTML
-  prepare,      // setup the rendering of a template with its state
   render,       // render JS template strings as HTML
 } from 'elementree'
 ```
@@ -37,7 +37,7 @@ import {
 ## Example
 
 ```js
-import { attach, prepare, render } from 'elementree'
+import { merge, join, render } from 'elementree'
 
 function template (model, { user }) {
   return render`
@@ -64,41 +64,22 @@ const app = {
   user: { first: 'Mark', last: 'Stahl' }
 }
 
-attach('body', prepare(template, state), app)
+merge('body', join(template, state), app)
 ```
 
 ## Elementree API
 
 ```js
-attach(to: String | HTMLElement, renderer: Function | Object [, state: Object])
+merge(to: String | HTMLElement, renderer: Function | Object [, state: Object])
 ```
 
-`attach` wires up a renderer and an optional object representing an application
-state and attaches it to a selector or DOM element. Simply put, `attach` renders
+`merge` wires up a renderer and an optional object representing an application
+state and merges it to a selector or DOM element. Simply put, `merge` renders
 your root template to the DOM.
 
-The first argument to `attach` can be a string which will be used by
-`document.querySelector`, after `DOMContentLoaded`, is  to find root element. The
-first argument can also be an `HTMLElement`. If so, it should be used within
-the `ready` callback to ensure the element exists.
-
-The second argument is the renderer. This argument can be a `Function` such as
-one returned a `prepared` call, or an object. Passing a function is usually done
-when routing is not used and there is one root template. Elementree expects
-the object passed to have a specific form which is covered in "routing" section.
-
-The third, optional, argument is an object representing the application's state.
-This object will passed to the renderer as an argument.
-
-
-```js
-connect(template: Function [, model: Object]) -> Function
-```
-
-Create a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object
-that acts as a localized model to the template.
-
-If the template function is prepared with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+The first argument to `merge` can be a string which will be used by
+`document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` such as
+one returned by a `join` call, or an object. The third, optional, argument is an object representing the application's state. This object will passed to the renderer following the renderer's model.
 
 
 ```js
@@ -106,6 +87,13 @@ html`unescaped: String` -> String
 ```
 
 Use `html` to interpolate HTML, without escaping it, directly into your template.
+
+
+```js
+join(template: Function [, model: Object]) -> Function
+```
+
+`join` a template and model object together creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object that acts as a localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
 
 
 ```js

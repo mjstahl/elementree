@@ -1,4 +1,4 @@
-const merge = require('nanomorph')
+const __merge = require('nanomorph')
 const onChange = require('on-change')
 const ready = require('./ready')
 
@@ -9,10 +9,10 @@ let tree = null
 function __renderer () {
   if (rendering) { return }
   rendering = true
-  rendering = !merge(root, tree())
+  rendering = !__merge(root, tree())
 }
 
-function attach (selector, prepared, app = {}) {
+function merge (selector, prepared, app = {}) {
   const model = onChange(app, __renderer)
   tree = () => prepared(model)
   ready(() => {
@@ -23,15 +23,15 @@ function attach (selector, prepared, app = {}) {
   })
 }
 
-function connect (template, state) {
+function join (template, state) {
   if (!state) return template
   const model = onChange(state, __renderer)
   return (...args) => template(model, ...args)
 }
 
 module.exports = {
-  attach,
-  connect,
   html: require('nanohtml/raw'),
+  join,
+  merge,
   render: require('nanohtml')
 }
