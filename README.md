@@ -92,20 +92,20 @@ This object will passed to the renderer as an argument.
 
 
 ```js
-html`unescaped: String` -> String
-```
-
-Use `html` to interpolate HTML, without escaping it, directly into your template.
-
-
-```js
-prepare(template: Function [, model: Object]) -> Function
+connect(template: Function [, model: Object]) -> Function
 ```
 
 Create a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object
 that acts as a localized model to the template.
 
 If the template function is prepared with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+
+
+```js
+html`unescaped: String` -> String
+```
+
+Use `html` to interpolate HTML, without escaping it, directly into your template.
 
 
 ```js

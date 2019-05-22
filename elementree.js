@@ -23,15 +23,15 @@ function attach (selector, prepared, app = {}) {
   })
 }
 
-function prepare (template, state) {
-  if (!state) return (...args) => template(...args)
+function connect (template, state) {
+  if (!state) return template
   const model = onChange(state, __renderer)
   return (...args) => template(model, ...args)
 }
 
 module.exports = {
   attach,
+  connect,
   html: require('nanohtml/raw'),
-  prepare,
   render: require('nanohtml')
 }

@@ -6,7 +6,7 @@
   "module": "index.js",
   "scripts": {
     "build": "npm run test && npm run bundle && npm run size",
-    "bundle": "browserify -p tinyify index.js > dist/elementree.js",
+    "bundle": "browserify -p tinyify elementree.js > dist/elementree.js",
     "lint": "standard --fix",
     "release:patch": "npm version patch && npm run build && npm publish",
     "release:minor": "npm version minor && npm run build && npm publish",
