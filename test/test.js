@@ -1,5 +1,5 @@
 const test = require('tape')
-const { attach, connect, render } = require('../elementree')
+const { merge, join, render } = require('../elementree')
 const ready = require('../ready')
 
 
@@ -9,7 +9,7 @@ test('render simple template', t => {
     t.ok(arguments.length, 1, 'appstate was passed to root renderer')
     return render`<body><p>Hello</p></body>`
   }
-  attach('body', connect(template))
+  merge('body', join(template))
   ready(() => {
     t.ok(document.querySelector('p').innerHTML.includes('Hello'))
     t.end()
@@ -30,7 +30,7 @@ test('passing arguments to child', t => {
       </body>
     `
   }
-  attach('body', connect(parent))
+  merge('body', join(parent))
   ready(() => {
     t.equal(document.querySelector('#parent').innerHTML, 'Hello')
     t.equal(document.querySelector('#child').innerHTML, 'World')
@@ -45,7 +45,7 @@ test('render simple template with state', t => {
     t.ok(arguments.length, 2, 'model and appstate was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
-  attach('body', connect(template, state))
+  merge('body', join(template, state))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, state.value)
     t.end()
@@ -60,7 +60,7 @@ test('passing args to child with state', t => {
       <p id="child">${parent} ${value}</p>
     `
   }
-  const child = connect(childTemplate, childState)
+  const child = join(childTemplate, childState)
 
   const parentState = { value: 'Hello' }
   function parentTemplate ({ value }) {
@@ -71,7 +71,7 @@ test('passing args to child with state', t => {
       </body>
     `
   }
-  attach('body', connect(parentTemplate, parentState))
+  merge('body', join(parentTemplate, parentState))
   ready(function () {
     t.equal(document.querySelector('#parent').innerHTML, 'Hello')
     t.equal(document.querySelector('#child').innerHTML, 'Brave New World')
@@ -101,7 +101,7 @@ test('re-render on state change', t => {
   const app = {
     user: { first: 'Mark', last: 'Stahl' }
   }
-  attach('body', connect(template, state), app)
+  merge('body', join(template, state), app)
   ready(function () {
     document.querySelector('button').click()
     const result = `Goodbye ${app.user.first} ${app.user.last}`
