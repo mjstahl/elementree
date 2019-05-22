@@ -1,6 +1,6 @@
 {
   "name": "elementree",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
   "module": "index.js",
