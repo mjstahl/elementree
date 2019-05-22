@@ -8,9 +8,9 @@
     "build": "npm run test && npm run bundle && npm run size",
     "bundle": "browserify -p tinyify elementree.js > dist/elementree.js",
     "lint": "standard --fix",
-    "release:patch": "npm version patch && npm run build && npm publish",
-    "release:minor": "npm version minor && npm run build && npm publish",
-    "release:major": "npm version major && npm run build && npm publish",
+    "release:patch": "npm run build && npm version patch && npm publish",
+    "release:minor": "npm run build && npm version minor && npm publish",
+    "release:major": "npm run build && npm version major && npm publish",
     "size": "size-limit",
     "test": "browserify test/test.js | tape-run"
   },
