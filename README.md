@@ -9,7 +9,7 @@ framework-y concepts.
 
 ## Features
 
-* Tiny size. Elementree is less than 4 KB when compressed.
+* Tiny size. Elementree is less than 7 KB when compressed.
 * Minimal cognitive overhead. Less framework means more time to focus on the problem domain.
 * It's just JavaScript. Nothing fancy. Just functions, objects, and template strings.
 

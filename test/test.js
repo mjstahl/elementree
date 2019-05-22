@@ -109,3 +109,29 @@ test('re-render on state change', t => {
     t.end()
   })
 })
+
+test('templates have different model instances', t => {
+  const childState = { value: 'sun' }
+  function childTemplate (model, parent) {
+    model.value = (parent === 'goodnight') ? 'moon' : model.value
+    return render`
+      <p class="child-${parent}">${parent} ${model.value}</p>
+    `
+  }
+  const child = join(childTemplate, childState)
+
+  function parentTemplate () {
+    return render`
+      <body>
+        <p class="child1">${child('hello')}</p>
+        <p class="child2">${child('goodnight')}</p>
+      </body>
+    `
+  }
+  merge('body', join(parentTemplate))
+  ready(function () {
+    t.equal(document.querySelector('.child-hello').innerHTML, 'hello sun')
+    t.equal(document.querySelector('.child-goodnight').innerHTML, 'goodnight moon')
+    t.end()
+  })
+})
