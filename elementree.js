@@ -1,7 +1,7 @@
-const clone = require('lodash.clonedeep')
-const onChange = require('on-change')
 const __merge = require('nanomorph')
 const __renderTemplate = require('nanohtml')
+const clone = require('lodash.clonedeep')
+const onChange = require('on-change')
 
 const ready = require('./ready')
 
@@ -10,23 +10,23 @@ let rendering = false
 let root = null
 let tree = null
 
-function __renderAll () {
+function __renderTree () {
   if (rendering) { return }
   rendering = true
   rendering = !__merge(root, tree())
 }
 
 function merge (selector, prepared, app = {}) {
-  const appTemplate = prepared(onChange(app, __renderAll))
+  const appTemplate = prepared(onChange(app, __renderTree))
   const model = (appTemplate.initWith)
-    ? onChange(appTemplate.initWith, __renderAll)
+    ? onChange(appTemplate.initWith, __renderTree)
     : undefined
   tree = () => appTemplate(model)
   ready(() => {
     root = (typeof selector === 'string')
       ? document.querySelector(selector)
       : selector
-    __renderAll()
+    __renderTree()
   })
 }
 
@@ -47,7 +47,7 @@ function render (strings, ...exprs) {
   if (!values) {
     values = exprs.map(e => {
       return (e && e.name === 'callWithModel')
-        ? onChange(clone(e.initWith), __renderAll)
+        ? onChange(clone(e.initWith), __renderTree)
         : e
     })
     exprCache.set(strings, values)
