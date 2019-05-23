@@ -68,7 +68,7 @@ merge('body', join(template, state), app)
 ## Elementree API
 
 ```js
-merge(to: String | HTMLElement, renderer: Function | Object [, state: Object])
+merge(to: String | HTMLElement, renderer: Function | Object [, state: Function | Object])
 ```
 
 `merge` wires up a renderer and an optional object representing an application
@@ -77,7 +77,7 @@ your root template to the DOM.
 
 The first argument to `merge` can be a string which will be used by
 `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` such as
-one returned by a `join` call, or an object. The third, optional, argument is an object representing the application's state. This object will passed to the renderer following the renderer's model.
+one returned by a `join` call, or an object. The third, optional, argument is an object or constructor function representing the application's state. This object will passed to the renderer following the renderer's model.
 
 
 ```js
@@ -88,10 +88,10 @@ Use `html` to interpolate HTML, without escaping it, directly into your template
 
 
 ```js
-join(template: Function [, model: Object]) -> Function
+join(template: Function [, model: Function | Object]) -> Function
 ```
 
-`join` a template and model object together creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object that acts as a localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+`join` a template and model object together creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object or constructor function that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
 
 
 ```js

@@ -10,18 +10,25 @@ let rendering = false
 let root = null
 let tree = null
 
+function __newModel (model) {
+  const instance = (typeof model === 'function')
+    ? new model()
+    : clone(model)
+  return onChange(instance, __renderTree)
+}
+
 function __renderTree () {
   if (rendering) { return }
   rendering = true
   rendering = !__merge(root, tree())
 }
 
-function merge (selector, prepared, app = {}) {
-  const appTemplate = prepared(onChange(app, __renderTree))
-  const model = (appTemplate.initWith)
-    ? onChange(appTemplate.initWith, __renderTree)
+function merge (selector, prepared, appState = {}) {
+  const app = prepared(__newModel(appState))
+  const model = (app.initWith)
+    ? __newModel(app.initWith)
     : undefined
-  tree = () => appTemplate(model)
+  tree = () => app(model)
   ready(() => {
     root = (typeof selector === 'string')
       ? document.querySelector(selector)
@@ -46,9 +53,8 @@ function render (strings, ...exprs) {
   let values = exprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      return (e && e.name === 'callWithModel')
-        ? onChange(clone(e.initWith), __renderTree)
-        : e
+      if (!e || e.name !== 'callWithModel') return e
+      return __newModel(e.initWith)
     })
     exprCache.set(strings, values)
   }

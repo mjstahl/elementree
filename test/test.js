@@ -135,3 +135,59 @@ test('templates have different model instances', t => {
     t.end()
   })
 })
+
+test('render simple template with state class', t => {
+  t.plan(1)
+  class State {
+    constructor() { this.value = 'Hello' }
+  }
+  function template ({ value }) {
+    return render`<body><p>${value}</p></body>`
+  }
+  merge('body', join(template, State))
+  ready(function () {
+    t.equal(document.querySelector('p').innerHTML, 'Hello')
+    t.end()
+  })
+})
+
+test('render simple template with constructor function', t => {
+  t.plan(1)
+  function State () { this.value = 'Hello' }
+  function template ({ value }) {
+    return render`<body><p>${value}</p></body>`
+  }
+  merge('body', join(template, State))
+  ready(function () {
+    t.equal(document.querySelector('p').innerHTML, 'Hello')
+    t.end()
+  })
+})
+
+test('render simple template with state class as app state', t => {
+  t.plan(1)
+  class State {
+    constructor() { this.value = 'Hello' }
+  }
+  function template ({ value }) {
+    return render`<body><p>${value}</p></body>`
+  }
+  merge('body', join(template), State)
+  ready(function () {
+    t.equal(document.querySelector('p').innerHTML, 'Hello')
+    t.end()
+  })
+})
+
+test('render simple template with constructor function as app state', t => {
+  t.plan(1)
+  function State () { this.value = 'Hello' }
+  function template ({ value }) {
+    return render`<body><p>${value}</p></body>`
+  }
+  merge('body', join(template), State)
+  ready(function () {
+    t.equal(document.querySelector('p').innerHTML, 'Hello')
+    t.end()
+  })
+})
