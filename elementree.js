@@ -1,5 +1,5 @@
 const __merge = require('nanomorph')
-const __renderTemplate = require('nanohtml')
+const __render = require('nanohtml')
 const clone = require('lodash.clonedeep')
 const onChange = require('on-change')
 
@@ -63,7 +63,7 @@ function render (strings, ...exprs) {
       ? e(values[i])
       : e
   })
-  return __renderTemplate(strings, ...evaluated)
+  return __render(strings, ...evaluated)
 }
 
 module.exports = {
