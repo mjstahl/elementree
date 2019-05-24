@@ -26,7 +26,7 @@ $ npm install --save elementree
 ```js
 import {
   merge,   // mount a view and app state to a selector
-  prepare,    // setup the rendering of a template with its state
+  prepare, // setup the rendering of a template with its state
   html,    // don't escape HTML
   render,  // render JS template strings as HTML
 } from 'elementree'
