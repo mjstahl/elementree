@@ -37,7 +37,7 @@ function merge (selector, prepared, appState = {}) {
   })
 }
 
-function join (template, state) {
+function prepare (template, state) {
   return (...args) => {
     function callWithModel (model) {
       return (model)
@@ -68,7 +68,7 @@ function render (strings, ...exprs) {
 
 module.exports = {
   html: require('nanohtml/raw'),
-  join,
+  prepare,
   merge,
   render,
 }

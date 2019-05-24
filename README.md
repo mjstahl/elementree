@@ -9,7 +9,7 @@ framework-y concepts.
 
 ## Features
 
-* Tiny size. Elementree is less than 7 KB when compressed.
+* Tiny size. Elementree is less than 8 KB when compressed.
 * Minimal cognitive overhead. Less framework means more time to focus on the problem domain.
 * It's just JavaScript. Nothing fancy. Just functions, objects, and template strings.
 
@@ -26,7 +26,7 @@ $ npm install --save elementree
 ```js
 import {
   merge,   // mount a view and app state to a selector
-  join,    // setup the rendering of a template with its state
+  prepare,    // setup the rendering of a template with its state
   html,    // don't escape HTML
   render,  // render JS template strings as HTML
 } from 'elementree'
@@ -35,7 +35,7 @@ import {
 ## Example
 
 ```js
-import { merge, join, render } from 'elementree'
+import { merge, prepare, render } from 'elementree'
 
 function template (model, { user }) {
   return render`
@@ -62,7 +62,7 @@ const app = {
   user: { first: 'Mark', last: 'Stahl' }
 }
 
-merge('body', join(template, state), app)
+merge('body', prepare(template, state), app)
 ```
 
 ## Elementree API
@@ -88,10 +88,10 @@ Use `html` to interpolate HTML, without escaping it, directly into your template
 
 
 ```js
-join(template: Function [, model: Function | Object]) -> Function
+prepare(template: Function [, model: Function | Object]) -> Function
 ```
 
-`join` a template and model object together creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object or constructor function that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+`prepare` a template with a model object together, creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object or constructor function that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
 
 
 ```js

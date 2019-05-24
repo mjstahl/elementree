@@ -1,5 +1,5 @@
 const test = require('tape')
-const { merge, join, render } = require('../elementree')
+const { merge, prepare, render } = require('../elementree')
 const ready = require('../ready')
 
 
@@ -9,7 +9,7 @@ test('render simple template', t => {
     t.ok(arguments.length, 1, 'appstate was passed to root renderer')
     return render`<body><p>Hello</p></body>`
   }
-  merge('body', join(template))
+  merge('body', prepare(template))
   ready(() => {
     t.ok(document.querySelector('p').innerHTML.includes('Hello'))
     t.end()
@@ -30,7 +30,7 @@ test('passing arguments to child', t => {
       </body>
     `
   }
-  merge('body', join(parent))
+  merge('body', prepare(parent))
   ready(() => {
     t.equal(document.querySelector('#parent').innerHTML, 'Hello')
     t.equal(document.querySelector('#child').innerHTML, 'World')
@@ -45,7 +45,7 @@ test('render simple template with state', t => {
     t.ok(arguments.length, 2, 'model and appstate was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', join(template, state))
+  merge('body', prepare(template, state))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, state.value)
     t.end()
@@ -60,7 +60,7 @@ test('passing args to child with state', t => {
       <p id="child">${parent} ${value}</p>
     `
   }
-  const child = join(childTemplate, childState)
+  const child = prepare(childTemplate, childState)
 
   const parentState = { value: 'Hello' }
   function parentTemplate ({ value }) {
@@ -71,7 +71,7 @@ test('passing args to child with state', t => {
       </body>
     `
   }
-  merge('body', join(parentTemplate, parentState))
+  merge('body', prepare(parentTemplate, parentState))
   ready(function () {
     t.equal(document.querySelector('#parent').innerHTML, 'Hello')
     t.equal(document.querySelector('#child').innerHTML, 'Brave New World')
@@ -101,7 +101,7 @@ test('re-render on state change', t => {
   const app = {
     user: { first: 'Mark', last: 'Stahl' }
   }
-  merge('body', join(template, state), app)
+  merge('body', prepare(template, state), app)
   ready(function () {
     document.querySelector('button').click()
     const result = `Goodbye ${app.user.first} ${app.user.last}`
@@ -118,7 +118,7 @@ test('templates have different model instances', t => {
       <p class="child-${parent}">${parent} ${model.value}</p>
     `
   }
-  const child = join(childTemplate, childState)
+  const child = prepare(childTemplate, childState)
 
   function parentTemplate () {
     return render`
@@ -128,7 +128,7 @@ test('templates have different model instances', t => {
       </body>
     `
   }
-  merge('body', join(parentTemplate))
+  merge('body', prepare(parentTemplate))
   ready(function () {
     t.equal(document.querySelector('.child-hello').innerHTML, 'hello sun')
     t.equal(document.querySelector('.child-goodnight').innerHTML, 'goodnight moon')
@@ -144,7 +144,7 @@ test('render simple template with state class', t => {
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', join(template, State))
+  merge('body', prepare(template, State))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, 'Hello')
     t.end()
@@ -157,7 +157,7 @@ test('render simple template with constructor function', t => {
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', join(template, State))
+  merge('body', prepare(template, State))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, 'Hello')
     t.end()
@@ -172,7 +172,7 @@ test('render simple template with state class as app state', t => {
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', join(template), State)
+  merge('body', prepare(template), State)
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, 'Hello')
     t.end()
@@ -185,7 +185,7 @@ test('render simple template with constructor function as app state', t => {
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', join(template), State)
+  merge('body', prepare(template), State)
   ready(function () {
     t.equal(document.querySelector('p').innerHTML, 'Hello')
     t.end()
