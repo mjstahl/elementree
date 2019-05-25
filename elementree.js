@@ -60,9 +60,7 @@ function render (strings, ...exprs) {
     exprCache.set(strings, values)
   }
   const evaluated = exprs.map((e, i) => {
-    return (e && e.callWithModel)
-      ? e(values[i])
-      : e
+    return (e && e.callWithModel) ? e(values[i]) : e
   })
   return __render(strings, ...evaluated)
 }
