@@ -44,6 +44,7 @@ function prepare (template, state) {
         ? template(model, ...args)
         : template(...args)
     }
+    callWithModel.callWithModel = true
     callWithModel.initWith = state
     return callWithModel
   }
@@ -53,13 +54,13 @@ function render (strings, ...exprs) {
   let values = exprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      if (!e || e.name !== 'callWithModel' || !e.initWith) return e
+      if (!e || !e.callWithModel || !e.initWith) return e
       return __newModel(e.initWith)
     })
     exprCache.set(strings, values)
   }
   const evaluated = exprs.map((e, i) => {
-    return (e && e.name === 'callWithModel')
+    return (e && e.callWithModel)
       ? e(values[i])
       : e
   })
