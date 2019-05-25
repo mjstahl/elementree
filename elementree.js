@@ -53,7 +53,7 @@ function render (strings, ...exprs) {
   let values = exprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      if (!e || e.name !== 'callWithModel') return e
+      if (!e || e.name !== 'callWithModel' || !e.initWith) return e
       return __newModel(e.initWith)
     })
     exprCache.set(strings, values)
