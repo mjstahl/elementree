@@ -4,7 +4,7 @@
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
   "scripts": {
-    "build": "npm run test && webpack && npm run size",
+    "build": "npm run lint && npm run test && webpack && npm run size",
     "lint": "standard --fix",
     "release:patch": "npm run build && npm version patch && npm publish",
     "release:minor": "npm run build && npm version minor && npm publish",

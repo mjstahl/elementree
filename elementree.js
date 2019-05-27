@@ -10,10 +10,10 @@ let rendering = false
 let root = null
 let tree = null
 
-function __newModel (model) {
-  const instance = (typeof model === 'function')
-    ? new model()
-    : clone(model)
+function __newModel (Model) {
+  const instance = (typeof Model === 'function')
+    ? new Model()
+    : clone(Model)
   return onChange(instance, __renderTree)
 }
 
@@ -69,5 +69,5 @@ module.exports = {
   html: require('nanohtml/raw'),
   prepare,
   merge,
-  render,
+  render
 }

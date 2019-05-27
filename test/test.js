@@ -2,7 +2,6 @@ const test = require('tape')
 const { merge, prepare, render } = require('../elementree')
 const ready = require('../ready')
 
-
 test('render simple template', t => {
   t.plan(2)
   function template () {
@@ -139,7 +138,7 @@ test('templates have different model instances', t => {
 test('render simple template with state class', t => {
   t.plan(1)
   class State {
-    constructor() { this.value = 'Hello' }
+    constructor () { this.value = 'Hello' }
   }
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
@@ -167,7 +166,7 @@ test('render simple template with constructor function', t => {
 test('render simple template with state class as app state', t => {
   t.plan(1)
   class State {
-    constructor() { this.value = 'Hello' }
+    constructor () { this.value = 'Hello' }
   }
   function template ({ value }) {
     return render`<body><p>${value}</p></body>`
