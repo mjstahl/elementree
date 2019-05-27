@@ -4,13 +4,16 @@
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
   "scripts": {
-    "build": "npm run lint && npm run test && webpack && npm run size",
+    "build": "run-s lint test size",
+    "bundle": "webpack",
+    "clean": "rimraf dist",
     "lint": "standard --fix",
     "release:patch": "npm run build && npm version patch && npm publish",
     "release:minor": "npm run build && npm version minor && npm publish",
     "release:major": "npm run build && npm version major && npm publish",
     "size": "size-limit",
-    "test": "browserify test/test.js | tape-run"
+    "test": "run-s clean bundle test-bundle",
+    "test-bundle": "browserify test/test.js | tape-run"
   },
   "repository": {
     "type": "git",
@@ -36,11 +39,12 @@
   ],
   "devDependencies": {
     "browserify": "^16.2.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^2.6.3",
     "size-limit": "^0.21.1",
     "standard": "^12.0.1",
-    "tape": "^4.10.1",
+    "tape": "^4.10.2",
     "tape-run": "^6.0.0",
-    "tinyify": "^2.5.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
   },
