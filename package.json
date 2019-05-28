@@ -3,6 +3,7 @@
   "version": "0.19.0",
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "run-s lint test size",
     "bundle": "webpack",
