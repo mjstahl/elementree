@@ -39,20 +39,20 @@ test('passing arguments to child', t => {
 
 test('render simple template with state', t => {
   t.plan(2)
-  const state = { value: 'Hello' }
+  const state = () => ({ value: 'Hello' })
   function template ({ value }) {
     t.ok(arguments.length, 2, 'model and appstate was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
   merge('body', prepare(template, state))
   ready(function () {
-    t.equal(document.querySelector('p').innerHTML, state.value)
+    t.equal(document.querySelector('p').innerHTML, 'Hello')
     t.end()
   })
 })
 
 test('passing args to child with state', t => {
-  const childState = { value: 'World' }
+  const childState = () => ({ value: 'World' })
   function childTemplate ({ value }, parent) {
     t.ok(arguments.length, 2, 'child model and parent arguments passed to child')
     return render`
@@ -61,7 +61,7 @@ test('passing args to child with state', t => {
   }
   const child = prepare(childTemplate, childState)
 
-  const parentState = { value: 'Hello' }
+  const parentState = () => ({ value: 'Hello' })
   function parentTemplate ({ value }) {
     return render`
       <body>
@@ -94,23 +94,21 @@ test('re-render on state change', t => {
       model.value = 'Goodbye'
     }
   }
-  const state = {
-    value: 'Hello'
-  }
-  const app = {
+  const state = () => ({ value: 'Hello' })
+  const app = () => ({
     user: { first: 'Mark', last: 'Stahl' }
-  }
+  })
   merge('body', prepare(template, state), app)
   ready(function () {
     document.querySelector('button').click()
-    const result = `Goodbye ${app.user.first} ${app.user.last}`
+    const result = `Goodbye Mark Stahl`
     t.equal(document.querySelector('p').innerHTML, result)
     t.end()
   })
 })
 
 test('templates have different model instances', t => {
-  const childState = { value: 'sun' }
+  const childState = () => ({ value: 'sun' })
   function childTemplate (model, parent) {
     model.value = (parent === 'goodnight') ? 'moon' : model.value
     return render`

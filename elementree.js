@@ -1,6 +1,5 @@
 const __merge = require('nanomorph')
 const __render = require('nanohtml')
-const clone = require('lodash.clonedeep')
 const onChange = require('on-change')
 
 const ready = require('./ready')
@@ -11,10 +10,11 @@ let root = null
 let tree = null
 
 function __newModel (Model) {
-  const instance = (typeof Model === 'function')
-    ? new Model()
-    : clone(Model)
-  return onChange(instance, __renderTree)
+  try {
+    return onChange(new Model(), __renderTree)
+  } catch (e) {
+    return onChange(Model(), __renderTree)
+  }
 }
 
 function __renderTree () {
@@ -23,8 +23,9 @@ function __renderTree () {
   rendering = !__merge(root, tree())
 }
 
-function merge (selector, prepared, appState = {}) {
-  const app = prepared(__newModel(appState))
+function merge (selector, prepared, appState = () => ({})) {
+  const appModel = __newModel(appState)
+  const app = prepared(appModel)
   const model = (app.initWith)
     ? __newModel(app.initWith)
     : undefined
