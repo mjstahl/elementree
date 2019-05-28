@@ -10,11 +10,8 @@ let root = null
 let tree = null
 
 function __newModel (Model) {
-  try {
-    return onChange(new Model(), __renderTree)
-  } catch (e) {
-    return onChange(Model(), __renderTree)
-  }
+  const instance = (Model.prototype) ? new Model() : Model()
+  return onChange(instance, __renderTree)
 }
 
 function __renderTree () {
@@ -24,11 +21,8 @@ function __renderTree () {
 }
 
 function merge (selector, prepared, appState = () => ({})) {
-  const appModel = __newModel(appState)
-  const app = prepared(appModel)
-  const model = (app.initWith)
-    ? __newModel(app.initWith)
-    : undefined
+  const app = prepared(__newModel(appState))
+  const model = (app.initWith) ? __newModel(app.initWith) : undefined
   tree = () => app(model)
   ready(() => {
     root = (typeof selector === 'string')
@@ -41,9 +35,7 @@ function merge (selector, prepared, appState = () => ({})) {
 function prepare (template, state) {
   return (...args) => {
     function callWithModel (model) {
-      return (model)
-        ? template(model, ...args)
-        : template(...args)
+      return (model) ? template(model, ...args) : template(...args)
     }
     callWithModel.callable = true
     callWithModel.initWith = state
