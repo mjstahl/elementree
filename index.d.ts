@@ -1,4 +1,4 @@
-type Model = object | Function | { new(): any }
+type Model = Function | { new(): any }
 type Rendered = DocumentFragment | HTMLElement
 type Selector = string | HTMLElement
 
