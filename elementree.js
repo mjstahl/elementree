@@ -25,9 +25,7 @@ function merge (selector, prepared, appState = () => ({})) {
   const model = (app.initWith) ? __newModel(app.initWith) : undefined
   tree = () => app(model)
   ready(() => {
-    root = (typeof selector === 'string')
-      ? document.querySelector(selector)
-      : selector
+    root = document.querySelector(selector)
     __renderTree()
   })
 }
@@ -47,8 +45,7 @@ function render (strings, ...exprs) {
   let values = exprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      if (!e || !e.callable || !e.initWith) return e
-      return __newModel(e.initWith)
+      return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
     })
     exprCache.set(strings, values)
   }

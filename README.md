@@ -66,16 +66,14 @@ merge('body', prepare(template, state), app)
 ## Elementree API
 
 ```js
-merge(to: String | HTMLElement, renderer: Function | Object [, state: Function])
+merge(to: String, renderer: Function | Object [, state: Function])
 ```
 
 `merge` wires up a renderer and an optional object representing an application
 state and merges it to a selector or DOM element. Simply put, `merge` renders
 your root template to the DOM.
 
-The first argument to `merge` can be a string which will be used by
-`document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` such as
-one returned by a `join` call, or an object. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` such as one returned by a `join` call, or an object. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
 
 
 ```js
