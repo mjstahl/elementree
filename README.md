@@ -56,9 +56,9 @@ function template (model, { user }) {
 const state = () => ({ greeting: 'Hello' })
 
 // application state
-const app = () => ({
+const app = {
   user: { first: 'Mark', last: 'Stahl' }
-})
+}
 
 merge('body', prepare(template, state), app)
 ```
@@ -66,14 +66,14 @@ merge('body', prepare(template, state), app)
 ## Elementree API
 
 ```js
-merge(to: String, renderer: Function | Object [, state: Function])
+merge(to: String, renderer: Function | Object [, state: Function | Object])
 ```
 
 `merge` wires up a renderer and an optional object representing an application
 state and merges it to a selector or DOM element. Simply put, `merge` renders
 your root template to the DOM.
 
-The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is an object, constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
 
 
 ```js

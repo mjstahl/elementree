@@ -1,6 +1,7 @@
 const __merge = require('nanomorph')
 const __render = require('nanohtml')
-const onChange = require('on-change')
+const locationChanged = require('location-changed')
+const onchange = require('on-change')
 
 const ready = require('./ready')
 
@@ -11,7 +12,7 @@ let tree = null
 
 function __newModel (Model) {
   const instance = (Model.prototype) ? new Model() : Model()
-  return onChange(instance, __renderTree)
+  return onchange(instance, __renderTree)
 }
 
 function __renderTree () {
@@ -20,10 +21,24 @@ function __renderTree () {
   rendering = !__merge(root, tree())
 }
 
-function merge (selector, prepared, appState = () => ({})) {
-  const app = prepared(__newModel(appState))
-  const model = (app.initWith) ? __newModel(app.initWith) : undefined
-  tree = () => app(model)
+function merge (selector, prepared, appState = {}) {
+  rendering = true
+
+  const appModel = (typeof appState === 'function')
+    ? __newModel(appState)
+    : onchange(appState, __renderTree)
+  locationChanged((path) => {
+    if (!appModel.route) appModel.route = {}
+    appModel.route.path = path
+  })
+
+  const rootTemplate = prepared(appModel)
+  const rootModel = (rootTemplate.initWith)
+    ? __newModel(rootTemplate.initWith)
+    : undefined
+  tree = () => rootTemplate(rootModel)
+
+  rendering = false
   ready(() => {
     root = document.querySelector(selector)
     __renderTree()
