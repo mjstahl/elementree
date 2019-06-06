@@ -67,7 +67,7 @@ module.exports = merge('body', prepare(template, state), app)
 ## Elementree API
 
 ```js
-merge(to: String, renderer: Function | Object [, state: Function]) -> String | undefined
+merge(to: String, renderer: Function [, state: Function]) -> String | undefined
 ```
 
 `merge` wires up a renderer and an optional object representing an application
