@@ -2,15 +2,17 @@ const __merge = require('nanomorph')
 const __render = require('nanohtml')
 const locationChanged = require('location-changed')
 const onchange = require('on-change')
-
 const ready = require('./ready')
 
+const ExprCache = new WeakMap()
+
 let AppModel = null
-const exprCache = new WeakMap()
-let rendering = false
-let root = null
 let RouteModel = null
+
+let root = null
 let tree = null
+
+let rendering = false
 
 function __newModel (Model, callback = __renderTree) {
   const instance = (Model.prototype) ? new Model() : Model()
@@ -66,12 +68,13 @@ function prepare (template, state) {
 }
 
 function render (strings, ...exprs) {
-  let values = exprCache.get(strings)
+  let values = ExprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
+      const isModel = e && e.callable && e.initWith
+      return (isModel) ? __newModel(e.initWith) : e
     })
-    exprCache.set(strings, values)
+    ExprCache.set(strings, values)
   }
   const evaluated = exprs.map((e, i) => {
     return (e && e.callable) ? e(values[i]) : e
