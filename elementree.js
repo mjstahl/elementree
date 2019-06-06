@@ -5,18 +5,29 @@ const onchange = require('on-change')
 
 const ready = require('./ready')
 
+let AppModel = null
 const exprCache = new WeakMap()
 let rendering = false
 let root = null
+let RouteModel = null
 let tree = null
 
-function __newModel (Model) {
-  const instance = (Model.prototype) ? new Model() : Model()
-  return onchange(instance, __renderTree)
+function __newModel (Model, callback = __renderTree) {
+  let instance = Model
+  if (typeof Model === 'function') {
+    instance = (Model.prototype) ? new Model() : Model()
+  }
+  return onchange(instance, callback)
 }
 
-function __renderTree () {
+function __renderTree (property, updated) {
   if (rendering) { return }
+
+  const appModelUpdated = updated && this === AppModel
+  if (appModelUpdated && property === 'route') {
+    RouteModel.path = updated
+  }
+
   rendering = true
   rendering = !__merge(root, tree())
 }
@@ -24,15 +35,12 @@ function __renderTree () {
 function merge (selector, prepared, appState = {}) {
   rendering = true
 
-  const appModel = (typeof appState === 'function')
-    ? __newModel(appState)
-    : onchange(appState, __renderTree)
-  locationChanged((path) => {
-    if (!appModel.route) appModel.route = {}
-    appModel.route.path = path
+  AppModel = __newModel(appState)
+  RouteModel = locationChanged(({ path }) => {
+    AppModel.route = path
   })
 
-  const rootTemplate = prepared(appModel)
+  const rootTemplate = prepared(AppModel)
   const rootModel = (rootTemplate.initWith)
     ? __newModel(rootTemplate.initWith)
     : undefined
