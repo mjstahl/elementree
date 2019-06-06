@@ -67,14 +67,14 @@ module.exports = merge('body', prepare(template, state), app)
 ## Elementree API
 
 ```js
-merge(to: String, renderer: Function | Object [, state: Function | Object]) -> undefined | String
+merge(to: String, renderer: Function | Object [, state: Function]) -> String | undefined
 ```
 
 `merge` wires up a renderer and an optional object representing an application
 state and merges it to a selector or DOM element. Simply put, `merge` renders
 your root template to the DOM.
 
-The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is an object, constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
 
 Elementree adds a single property onto the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
 

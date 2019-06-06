@@ -13,10 +13,7 @@ let RouteModel = null
 let tree = null
 
 function __newModel (Model, callback = __renderTree) {
-  let instance = Model
-  if (typeof Model === 'function') {
-    instance = (Model.prototype) ? new Model() : Model()
-  }
+  const instance = (Model.prototype) ? new Model() : Model()
   return onchange(instance, callback)
 }
 
@@ -32,7 +29,7 @@ function __renderTree (property, updated) {
   rendering = !__merge(root, tree())
 }
 
-function merge (selector, prepared, appState = {}) {
+function merge (selector, prepared, appState = () => ({})) {
   rendering = true
 
   AppModel = __newModel(appState)
