@@ -72,7 +72,7 @@ function render (strings, ...exprs) {
 
 module.exports = {
   html: require('nanohtml/raw'),
-  prepare,
   merge,
+  prepare,
   render
 }
