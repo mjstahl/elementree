@@ -46,6 +46,10 @@ function merge (selector, prepared, appState = {}) {
     : undefined
   tree = () => rootTemplate(rootModel)
 
+  if (typeof window !== 'object') {
+    return tree().outerHTML
+  }
+
   rendering = false
   ready(() => {
     root = document.querySelector(selector)
