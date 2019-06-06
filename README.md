@@ -75,7 +75,7 @@ your root template to the DOM.
 
 The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is an object, constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
 
-Elementree adds a single property onto the application state object. The `route` property is a concatenation of `window.location.pathname` and `window.location.search`. Updating the `route` property will cause a `history.pushState`. Updating the address via browser interations will update the `route` property.
+Elementree adds a single property onto the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
 
 
 ```js
