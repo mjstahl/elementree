@@ -20,12 +20,12 @@ function __newModel (Model, callback = __renderTree) {
 }
 
 function __renderTree (property, updated) {
-  if (rendering) { return }
-
   const appModelUpdated = updated && this === AppModel
-  if (appModelUpdated && property === 'route') {
+  if (RouteModel && appModelUpdated && property === 'route') {
     RouteModel.path = updated
   }
+
+  if (rendering) return
 
   rendering = true
   rendering = !__merge(root, tree())
