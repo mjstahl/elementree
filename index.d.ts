@@ -1,10 +1,9 @@
 type Model = Function | { new(): object }
 type AppState = Model | object
-type Rendered = DocumentFragment | HTMLElement
 
-type CallableWithModel = (state?: Model) => Rendered
+type CallableWithModel = (state?: Model) => HTMLElement
 type Prepared = (...args: any[]) => CallableWithModel
-type Renderer = (parts: string[], ...exprs: any[]) => Rendered
+type Renderer = (strings: TemplateStringsArray, ...keys: any[]) => HTMLElement
 
 export type html = Renderer
 export type render = Renderer
