@@ -25,9 +25,9 @@ $ npm install --save elementree
 
 ```js
 import {
-  merge,   // mount a view and app state to a selector
-  prepare, // setup the rendering of a template with its state
-  html,    // don't escape HTML
+  merge,   // merge the document with the rendering of a template
+  prepare, // prepare the rendering of a template with its state
+  html,    // return HTML as HTML, without escaping the characters
   render,  // render JS template strings as HTML
 } from 'elementree'
 ```
@@ -56,9 +56,9 @@ function template (model, { user }) {
 const state = () => ({ greeting: 'Hello' })
 
 // application state
-const app = {
+const app = () => ({
   user: { first: 'Mark', last: 'Stahl' }
-}
+})
 
 // export the result and do some server-side rendering
 module.exports = merge('body', prepare(template, state), app)
@@ -74,7 +74,7 @@ merge(to: String, renderer: Function [, state: Function]) -> String | undefined
 state and merges it to a selector or DOM element. Simply put, `merge` renders
 your root template to the DOM.
 
-The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns an `HTMLElement` or `DocumentFragment` such as a `prepare` call. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer following the renderer's model.
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns a function that returns an `HTMLElement` such as a `prepare` call. The third, optional, argument is a constructor function or function that returns an object representing the application's state. This object will passed to the renderer function as an argument.
 
 Elementree adds a single property onto the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
 
@@ -82,21 +82,21 @@ If the `window` object does not exist the call to `merge` will return the `outer
 
 
 ```js
-html`unescaped: String` -> HTMLElement | DocumentFragment
+html`unescaped: String` -> HTMLElement
 ```
 
 Use `html` to interpolate HTML, without escaping it, directly into your template.
 
 
 ```js
-prepare(template: Function [, model: Function]) -> Function
+prepare(template: Function [, model: Function]) -> (Function -> HTMLElement)
 ```
 
-`prepare` a template with a model object together, creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is a constructor function or a function that returns an object that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the first argument to the template function**. All other arguments will follow.
+`prepare` a template with a model object together, creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is a constructor function or a function that returns an object that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the 0th argument to the template function**. All other arguments will follow.
 
 
 ```js
-render`template: String` -> HTMLElement | DocumentFragment
+render`template: String` -> HTMLElement
 ```
 
 A tagged template function. Turn a JavaScript template string into an `HTMLElement`. If the template has more than one root element a `DocumentFragment` is returned.
