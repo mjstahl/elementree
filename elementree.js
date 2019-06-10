@@ -15,7 +15,7 @@ let tree = null
 let rendering = false
 
 function __newModel (Model, callback = __renderTree) {
-  const instance = (Model.prototype) ? new Model() : Model()
+  const instance = Model()
   return onchange(instance, callback)
 }
 
