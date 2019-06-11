@@ -1,4 +1,4 @@
-![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)  [![Build Status](https://img.shields.io/travis/com/elementreejs/elementree.svg?style=flat-square)](https://travis-ci.com/elementreejs/elementree)
+![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)  [![Build Status](https://img.shields.io/travis/elementreejs/elementree/master.svg?style=flat-square)](https://travis-ci.com/elementreejs/elementree.svg?branch=master)
 
 # Elementree
 > "Less framework, more work."
