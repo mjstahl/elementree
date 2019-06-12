@@ -14,8 +14,11 @@ let tree = null
 
 let rendering = false
 
-function __newModel (Model, callback = __renderTree) {
-  const instance = Model()
+function __newModel (model, callback = __renderTree) {
+  let Model = model
+  if (typeof Model !== 'function') Model = function () { return model }
+
+  const instance = (Model.prototype) ? new Model() : Model()
   return onchange(instance, callback)
 }
 
@@ -71,8 +74,7 @@ function render (strings, ...exprs) {
   let values = ExprCache.get(strings)
   if (!values) {
     values = exprs.map(e => {
-      const isModel = e && e.callable && e.initWith
-      return (isModel) ? __newModel(e.initWith) : e
+      return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
     })
     ExprCache.set(strings, values)
   }
