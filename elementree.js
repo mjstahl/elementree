@@ -1,7 +1,8 @@
 const __merge = require('nanomorph')
 const __render = require('nanohtml')
 const locationChanged = require('location-changed')
-const onchange = require('on-change')
+
+const create = require('./create')
 const ready = require('./ready')
 
 const ExprCache = new WeakMap()
@@ -14,15 +15,7 @@ let tree = null
 
 let rendering = false
 
-function __newModel (model, callback = __renderTree) {
-  let Model = model
-  if (typeof Model !== 'function') Model = function () { return model }
-
-  const instance = (Model.prototype) ? new Model() : Model()
-  return onchange(instance, callback)
-}
-
-function __renderTree (property, updated) {
+function _renderTree (property, updated) {
   const appModelUpdated = updated && this === AppModel
   if (RouteModel && appModelUpdated && property === 'route') {
     RouteModel.path = updated
@@ -37,14 +30,14 @@ function __renderTree (property, updated) {
 function merge (selector, prepared, appState = () => ({})) {
   rendering = true
 
-  AppModel = __newModel(appState)
+  AppModel = create(appState, _renderTree)
   RouteModel = locationChanged(({ path }) => {
     AppModel.route = path
   })
 
   const rootTemplate = prepared(AppModel)
   const rootModel = (rootTemplate.initWith)
-    ? __newModel(rootTemplate.initWith)
+    ? create(rootTemplate.initWith, _renderTree)
     : undefined
   tree = () => rootTemplate(rootModel)
 
@@ -55,7 +48,7 @@ function merge (selector, prepared, appState = () => ({})) {
   rendering = false
   ready(() => {
     root = document.querySelector(selector)
-    __renderTree()
+    _renderTree()
   })
 }
 
@@ -72,7 +65,7 @@ function prepare (template, state) {
 
 function render (strings, ...exprs) {
   const values = ExprCache.get(strings) || exprs.map(e => {
-    return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
+    return (e && e.callable && e.initWith) ? create(e.initWith, _renderTree) : e
   })
   ExprCache.set(strings, values)
 
