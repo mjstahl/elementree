@@ -1,6 +1,6 @@
 {
   "name": "elementree",
-  "version": "0.24.2",
+  "version": "0.24.3",
   "description": "Observables + JS Template Literals",
   "main": "dist/elementree.js",
   "umd:main": "dist/elementree.umd.js",
