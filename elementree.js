@@ -27,7 +27,7 @@ function _renderTree (property, updated) {
   rendering = !__merge(root, tree())
 }
 
-function merge (selector, prepared, appState = () => ({})) {
+function merge (selector, prepared, appState = {}) {
   rendering = true
 
   AppModel = create(appState, _renderTree)
