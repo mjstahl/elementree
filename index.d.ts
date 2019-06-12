@@ -1,7 +1,5 @@
 type Model = object | Function | { new(): object }
-
-type CallableWithModel = (state?: Model) => HTMLElement
-type Prepared = (...args: any[]) => CallableWithModel
+type Prepared = (...args: any[]) => (state?: Model) => HTMLElement
 
 export function html(strings: TemplateStringsArray, ...keys: any[]): HTMLElement
 export function render(strings: TemplateStringsArray, ...keys: any[]): HTMLElement

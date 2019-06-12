@@ -71,13 +71,11 @@ function prepare (template, state) {
 }
 
 function render (strings, ...exprs) {
-  let values = ExprCache.get(strings)
-  if (!values) {
-    values = exprs.map(e => {
-      return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
-    })
-    ExprCache.set(strings, values)
-  }
+  const values = ExprCache.get(strings) || exprs.map(e => {
+    return (e && e.callable && e.initWith) ? __newModel(e.initWith) : e
+  })
+  ExprCache.set(strings, values)
+
   const evaluated = exprs.map((e, i) => {
     return (e && e.callable) ? e(values[i]) : e
   })
