@@ -100,10 +100,6 @@ render`template: String` -> HTMLElement
 
 A tagged template function. Turn a JavaScript template string into an `HTMLElement`. If the template has more than one root element a `DocumentFragment` is returned.
 
-## Known Issues
-
-It is recommended that constructor functions and objects are used exclusively for template and application state. This is due to `TypeError: Class constructor cannot be invoked without 'new'` being thrown in `create.js/proxyConstructor`. However, classes should work if you are using a bundler, such as [Parcel](https://parceljs.org/) or [Steal](https://stealjs.com/), that transpiles your classes into functions.
-
 ## Attribution
 
 This project would suck a whole lot more without the input from my awesome co-workers at [Bitovi](https://bitovi.com), the inspiration from [@choojs](https://github.com/choojs), and the amazing packages from [@sindresorhus](https://github.com/sindresorhus). Thank you.

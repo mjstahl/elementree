@@ -8,7 +8,8 @@ function proxyConstructor (obj, callback) {
           const proto = Object.create(target.prototype)
           const protoProxy = onchange(proto, callback)
           try {
-            const instance = target.prototype.constructor.call(protoProxy)
+            const instance =
+              Reflect.construct(target.prototype.constructor, protoProxy)
             return onchange(instance, callback)
           } catch (e) { }
           return protoProxy
