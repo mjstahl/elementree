@@ -102,7 +102,7 @@ A tagged template function. Turn a JavaScript template string into an `HTMLEleme
 
 ## Known Issues
 
-* Until we figure out a way to override the context of class constructors it is recommended that constructor functions and objects are used exclusively for template and application state. This is due to `TypeError: Class constructor cannot be invoked without 'new'` being thrown in `create.js/proxyConstructor`. However, this will work if you are using a transpiler, such as Parcel, that turns your classes into functions.
+* It is recommended that constructor functions and objects are used exclusively for template and application state. This is due to `TypeError: Class constructor cannot be invoked without 'new'` being thrown in `create.js/proxyConstructor`. However, this will work if you are using a transpiler, such as Parcel, that turns your classes into functions.
 
 ## Attribution
 
