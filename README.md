@@ -8,7 +8,7 @@ on getting the job done with the mimimum amount of framework-y concepts.
 
 ## Features
 
-* Tiny size. Elementree is less than 6 KB with all dependencies and compressed.
+* Tiny size. Elementree is less than 6.5 KB with all dependencies and compressed.
 * Minimal cognitive overhead. More time focused on the problem domain and less time thumbing through framework documentation.
 * Nothing fancy. No transpiling, compiling, or proprietary data shapes. Just functions and template strings.
 
@@ -99,6 +99,10 @@ render`template: String` -> HTMLElement
 ```
 
 A tagged template function. Turn a JavaScript template string into an `HTMLElement`. If the template has more than one root element a `DocumentFragment` is returned.
+
+## Known Issues
+
+* Until we figure out a way to override the context of class constructors it is recommended that constructor functions and objects are used exclusively for template and application state. This is due to `TypeError: Class constructor cannot be invoked without 'new'` being thrown in `create.js/proxyConstructor`. However, this will work if you are using a transpiler, such as Parcel, that turns your classes into functions.
 
 ## Attribution
 
