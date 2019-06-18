@@ -168,7 +168,7 @@ test('render simple template with constructor function as app state', t => {
   })
 })
 
-test('render simple template with state class', t => {
+test.skip('render simple template with state class', t => {
   t.plan(1)
   class State {
     constructor () { this.value = 'Hello' }
@@ -184,7 +184,7 @@ test('render simple template with state class', t => {
   })
 })
 
-test('render simple template with state class as app state', t => {
+test.skip('render simple template with state class as app state', t => {
   t.plan(1)
   class State {
     constructor () { this.value = 'Hello' }
