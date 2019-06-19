@@ -8,12 +8,9 @@ function proxyConstructor (obj, callback) {
           function newTarget () { }
           newTarget.prototype =
             onchange(Object.create(target.prototype), callback)
-          try {
-            const instance =
-              Reflect.construct(target.prototype.constructor, [], newTarget)
-            return onchange(instance, callback)
-          } catch (e) { }
-          return newTarget.prototype
+          const instance =
+            Reflect.construct(target.prototype.constructor, [], newTarget)
+          return onchange(instance, callback)
         },
         ...args
       )

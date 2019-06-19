@@ -9,14 +9,12 @@ const ExprCache = new WeakMap()
 
 let AppModel = null
 let RouteModel = null
-
 let root = null
 let tree = null
-
 let rendering = false
 
 function renderAndMutate (property, updated) {
-  const appModelUpdated = updated && this === AppModel
+  const appModelUpdated = this === AppModel && updated
   if (RouteModel && appModelUpdated && property === 'route') {
     RouteModel.path = updated
   }

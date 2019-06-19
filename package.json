@@ -1,7 +1,7 @@
 {
   "name": "elementree",
   "version": "0.25.7",
-  "description": "Observables + JS Template Literals",
+  "description": "MV* Framework with Proxy Observables and JS Template Literals",
   "main": "dist/elementree.js",
   "types": "index.d.ts",
   "scripts": {
@@ -58,7 +58,7 @@
   "size-limit": [
     {
       "path": "elementree.js",
-      "limit": "6.1 KB"
+      "limit": "6.5 KB"
     }
   ]
 }
