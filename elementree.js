@@ -70,7 +70,8 @@ function render (strings, ...exprs) {
   ExprCache.set(strings, values)
 
   const evaluated = exprs.map((e, i) => {
-    return (e && e.callable) ? e(values[i]) : e
+    if (!e || !e.callable) return e
+    return (e.initWith) ? e(values[i]) : e()
   })
   return renderHTML(strings, ...evaluated)
 }
