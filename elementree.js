@@ -1,5 +1,5 @@
-const __merge = require('nanomorph')
-const __render = require('nanohtml')
+const mutate = require('nanomorph')
+const renderHTML = require('nanohtml')
 const locationChanged = require('location-changed')
 
 const create = require('./create')
@@ -15,7 +15,7 @@ let tree = null
 
 let rendering = false
 
-function _renderTree (property, updated) {
+function renderAndMutate (property, updated) {
   const appModelUpdated = updated && this === AppModel
   if (RouteModel && appModelUpdated && property === 'route') {
     RouteModel.path = updated
@@ -24,20 +24,20 @@ function _renderTree (property, updated) {
   if (rendering) return
 
   rendering = true
-  rendering = !__merge(root, tree())
+  rendering = !mutate(root, tree())
 }
 
 function merge (selector, prepared, appState = {}) {
   rendering = true
 
-  AppModel = create(appState, _renderTree)
+  AppModel = create(appState, renderAndMutate)
   RouteModel = locationChanged(({ path }) => {
     AppModel.route = path
   })
 
   const rootTemplate = prepared(AppModel)
   const rootModel = (rootTemplate.initWith)
-    ? create(rootTemplate.initWith, _renderTree)
+    ? create(rootTemplate.initWith, renderAndMutate)
     : undefined
   tree = () => rootTemplate(rootModel)
 
@@ -48,7 +48,7 @@ function merge (selector, prepared, appState = {}) {
   rendering = false
   ready(() => {
     root = document.querySelector(selector)
-    _renderTree()
+    renderAndMutate()
   })
 }
 
@@ -65,14 +65,16 @@ function prepare (template, state) {
 
 function render (strings, ...exprs) {
   const values = ExprCache.get(strings) || exprs.map(e => {
-    return (e && e.callable && e.initWith) ? create(e.initWith, _renderTree) : e
+    return (e && e.callable && e.initWith)
+      ? create(e.initWith, renderAndMutate)
+      : e
   })
   ExprCache.set(strings, values)
 
   const evaluated = exprs.map((e, i) => {
     return (e && e.callable) ? e(values[i]) : e
   })
-  return __render(strings, ...evaluated)
+  return renderHTML(strings, ...evaluated)
 }
 
 module.exports = {
