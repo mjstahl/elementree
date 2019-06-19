@@ -1,6 +1,6 @@
 const mutate = require('nanomorph')
 const renderHTML = require('nanohtml')
-const locationChanged = require('location-changed')
+const locationChanged = require('./location')
 
 const create = require('./create')
 const ready = require('./ready')

@@ -41,9 +41,8 @@ test('passing arguments to child', t => {
 
 test('render simple template with state', t => {
   const state = { value: 'Hello' }
-  function template ({ value }, { route }) {
+  function template ({ value }) {
     t.ok(arguments.length, 'template state and app state was passed to root renderer')
-    t.ok(route, 'app state passed to root with route property')
     return render`<body><p>${value}</p></body>`
   }
   merge('body', prepare(template, state))

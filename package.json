@@ -50,10 +50,10 @@
     "webpack-cli": "^3.3.4"
   },
   "dependencies": {
-    "location-changed": "^0.4.0",
     "nanohtml": "^1.6.3",
     "nanomorph": "^5.4.0",
-    "on-change": "^1.5.0"
+    "on-change": "^1.5.0",
+    "onpushstate": "^0.3.1"
   },
   "size-limit": [
     {
