@@ -7,16 +7,16 @@ const ready = require('./ready')
 
 const ExprCache = new WeakMap()
 
-let AppModel = null
-let RouteModel = null
+let AppState = null
+let RouteState = null
 let root = null
 let tree = null
 let rendering = false
 
 function renderAndMutate (property, updated) {
-  const appModelUpdated = this === AppModel && updated
-  if (RouteModel && appModelUpdated && property === 'route') {
-    RouteModel.path = updated
+  const appStateUpdated = this === AppState && updated
+  if (RouteState && appStateUpdated && property === 'route') {
+    RouteState.path = updated
   }
 
   if (rendering) return
@@ -28,16 +28,16 @@ function renderAndMutate (property, updated) {
 function merge (selector, prepared, appState = {}) {
   rendering = true
 
-  AppModel = create(appState, renderAndMutate)
-  RouteModel = locationChanged(({ path }) => {
-    AppModel.route = path
+  AppState = create(appState, renderAndMutate)
+  RouteState = locationChanged(({ path }) => {
+    AppState.route = path
   })
 
-  const rootTemplate = prepared(AppModel)
-  const rootModel = (rootTemplate.initWith)
+  const rootTemplate = prepared(AppState)
+  const rootState = (rootTemplate.initWith)
     ? create(rootTemplate.initWith, renderAndMutate)
     : undefined
-  tree = () => rootTemplate(rootModel)
+  tree = () => rootTemplate(rootState)
 
   if (typeof window !== 'object') {
     return tree().outerHTML
@@ -52,12 +52,12 @@ function merge (selector, prepared, appState = {}) {
 
 function prepare (template, state) {
   return (...args) => {
-    function callWithModel (model) {
-      return (model) ? template(model, ...args) : template(...args)
+    function callWithState (state) {
+      return (state) ? template(state, ...args) : template(...args)
     }
-    callWithModel.callable = true
-    callWithModel.initWith = state
-    return callWithModel
+    callWithState.callable = true
+    callWithState.initWith = state
+    return callWithState
   }
 }
 

@@ -18,14 +18,14 @@ function proxyConstructor (obj, callback) {
   })
 }
 
-module.exports = function create (model, callback) {
-  let Model = model
-  if (typeof Model !== 'function') Model = (() => model)()
+module.exports = function create (state, callback) {
+  let State = state
+  if (typeof State !== 'function') State = (() => state)()
 
-  if (Model.prototype) {
-    const Proxied = proxyConstructor(Model, callback)
+  if (State.prototype) {
+    const Proxied = proxyConstructor(State, callback)
     return new Proxied()
   } else {
-    return onchange(Model, callback)
+    return onchange(State, callback)
   }
 }
