@@ -33,11 +33,11 @@ function merge (selector, prepared, appState = {}) {
     AppState.route = path
   })
 
-  const rootTemplate = prepared(AppState)
-  const rootState = (rootTemplate.initWith)
-    ? create(rootTemplate.initWith, renderAndMutate)
+  const rootView = prepared(AppState)
+  const rootState = (rootView.initWith)
+    ? create(rootView.initWith, renderAndMutate)
     : undefined
-  tree = () => rootTemplate(rootState)
+  tree = () => rootView(rootState)
 
   if (typeof window !== 'object') {
     return tree().outerHTML
@@ -50,10 +50,10 @@ function merge (selector, prepared, appState = {}) {
   })
 }
 
-function prepare (template, state) {
+function prepare (view, state) {
   return (...args) => {
     function callWithState (state) {
-      return (state) ? template(state, ...args) : template(...args)
+      return (state) ? view(state, ...args) : view(...args)
     }
     callWithState.callable = true
     callWithState.initWith = state

@@ -36,10 +36,10 @@ import {
 ```js
 import { merge, prepare, render } from 'elementree'
 
-function template (model, { user }) {
+function view (state, { user }) {
   return render`
     <body>
-      <p>${model.greeting}, ${user.first} ${user.last}</p>
+      <p>${state.greeting}, ${state.first} ${state.last}</p>
       <button onclick=${toggle}>
         Toggle
       </button>
@@ -47,7 +47,7 @@ function template (model, { user }) {
   `
 
   function toggle () {
-    model.greeting = 'Goodbye'
+    state.greeting = 'Goodbye'
   }
 }
 
@@ -60,38 +60,30 @@ const app = {
 }
 
 // export the result and do some server-side rendering
-module.exports = merge('body', prepare(template, state), app)
+module.exports = merge('body', prepare(view, state), app)
 ```
 
 ## Elementree API
 
 ```js
-merge(to: String, renderer: Function [, state: Object | Function]) -> String | undefined
+merge(to: String, view: Function [, state: Object | Function]) -> String | undefined
 ```
 
-`merge` wires up a renderer and an optional object representing an application
-state and merges it to a selector or DOM element. Simply put, `merge` renders
-your root template to the DOM.
+`merge` wires up a view and an optional object representing the application
+state and merges it to a selector. Simply put, `merge` renders your root view to the DOM.
 
-The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the renderer. This argument is a `Function` that returns a function that returns an `HTMLElement` such as a `prepare` call. The third, optional, argument is an object or function that returns an object representing the application's state. This object will passed to the renderer function as an argument.
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the top-level view. This argument is a `Function` that returns a function that returns an `HTMLElement` such as a `prepare` call. The third, optional, argument is an object or function that returns an object representing the application's state. This object will passed to the renderer function as an parent argument (i.e. following the view's state if there is one).
 
-Elementree adds a single property onto the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
+Elementree adds a single property to the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
 
 If the `window` object does not exist the call to `merge` will return the `outerHTML` on the result of the rendering.
 
 
 ```js
-html`unescaped: String` -> HTMLElement
+prepare(view: Function [, state: Object | Function]) -> (Function -> HTMLElement)
 ```
 
-Use `html` to interpolate HTML, without escaping it, directly into your template.
-
-
-```js
-prepare(template: Function [, model: Object | Function]) -> (Function -> HTMLElement)
-```
-
-`prepare` a template with a model object together, creating a renderer function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object or  function that returns an object that is the localized model to the template. If the template function is joined with a model, the model **will ALWAYS be the 0th argument to the template function**. All other arguments will follow.
+`prepare` a template with a state object, creating a view function. At a minimum, a view function is required to be passed as the first argument. The second argument, which is optional, is a class, object, or function that returns an object. This returned object is the local view state. If the view function is joined with a state, the state object **will ALWAYS be the 0th argument to the view function**. All parent arguments will follow.
 
 
 ```js
@@ -99,6 +91,13 @@ render`template: String` -> HTMLElement
 ```
 
 A tagged template function. Turn a JavaScript template string into an `HTMLElement`. If the template has more than one root element a `DocumentFragment` is returned.
+
+
+```js
+html`unescaped: String` -> HTMLElement
+```
+
+Use `html` to interpolate HTML, without escaping it, directly into your template.
 
 ## Attribution
 

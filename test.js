@@ -2,16 +2,16 @@ const test = require('tape')
 const { merge, prepare, render } = require('./elementree')
 const ready = require('./ready')
 
-test('render simple template', t => {
-  function template (app) {
+test('render simple view', t => {
+  function view (app) {
     t.equal(arguments.length, 1, 'app state was passed to root renderer')
     t.ok(app.route, 'app state has route property')
     return render`<body><p>Hello</p></body>`
   }
-  merge('body', prepare(template))
+  merge('body', prepare(view))
   ready(() => {
     t.ok(document.querySelector('p').innerHTML.includes('Hello'),
-      'template rendered')
+      'view rendered')
     t.end()
   })
 })
@@ -32,39 +32,39 @@ test('passing arguments to child', t => {
   merge('body', prepare(parent))
   ready(() => {
     t.equal(document.querySelector('#parent').innerHTML,
-      'Hello', 'parent template rendered')
+      'Hello', 'parent view rendered')
     t.equal(document.querySelector('#child').innerHTML,
       'World', 'child value substituted')
     t.end()
   })
 })
 
-test('render simple template with state', t => {
+test('render simple view with state', t => {
   const state = { value: 'Hello' }
-  function template ({ value }) {
-    t.ok(arguments.length, 'template state and app state was passed to root renderer')
+  function view ({ value }) {
+    t.ok(arguments.length, 'view state and app state was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', prepare(template, state))
+  merge('body', prepare(view, state))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'template state value substituted')
+      'Hello', 'view state value substituted')
     t.end()
   })
 })
 
 test('passing args to child with state', t => {
   const childState = { value: 'World' }
-  function childTemplate ({ value }, parent) {
+  function childView ({ value }, parent) {
     t.ok(arguments.length, 2, 'child state and parent arguments passed to child')
     return render`
       <p id="child">${parent} ${value}</p>
     `
   }
-  const child = prepare(childTemplate, childState)
+  const child = prepare(childView, childState)
 
   const parentState = { value: 'Hello' }
-  function parentTemplate ({ value }) {
+  function parentView ({ value }) {
     return render`
       <body>
         <p id="parent">${value}</p>
@@ -72,7 +72,7 @@ test('passing args to child with state', t => {
       </body>
     `
   }
-  merge('body', prepare(parentTemplate, parentState))
+  merge('body', prepare(parentView, parentState))
   ready(function () {
     t.equal(document.querySelector('#parent').innerHTML,
       'Hello', 'parent value rendered')
@@ -84,7 +84,7 @@ test('passing args to child with state', t => {
 
 test('re-render on state change', t => {
   t.plan(3)
-  function template (state, app) {
+  function view (state, app) {
     t.ok(app, 'appstate is defined')
     return render`
       <body>
@@ -102,26 +102,26 @@ test('re-render on state change', t => {
   const app = {
     user: { first: 'Mark', last: 'Stahl' }
   }
-  merge('body', prepare(template, state), app)
+  merge('body', prepare(view, state), app)
   ready(function () {
     document.querySelector('button').click()
     const result = `Goodbye Mark Stahl`
-    t.equal(document.querySelector('p').innerHTML, result, 'template re-rendered')
+    t.equal(document.querySelector('p').innerHTML, result, 'view re-rendered')
     t.end()
   })
 })
 
-test('templates have different state instances', t => {
+test('views have different state instances', t => {
   const childState = { value: 'sun' }
-  function childTemplate (state, parent) {
+  function childView (state, parent) {
     state.value = (parent === 'goodnight') ? 'moon' : state.value
     return render`
       <p class="child-${parent}">${parent} ${state.value}</p>
     `
   }
-  const child = prepare(childTemplate, childState)
+  const child = prepare(childView, childState)
 
-  function parentTemplate () {
+  function parentView () {
     return render`
       <body>
         <p class="child1">${child('hello')}</p>
@@ -129,7 +129,7 @@ test('templates have different state instances', t => {
       </body>
     `
   }
-  merge('body', prepare(parentTemplate))
+  merge('body', prepare(parentView))
   ready(function () {
     t.equal(document.querySelector('.child-hello').innerHTML,
       'hello sun', 'first instance rendered correctly')
@@ -139,27 +139,27 @@ test('templates have different state instances', t => {
   })
 })
 
-test('render simple template with constructor function', t => {
+test('render simple view with constructor function', t => {
   t.plan(1)
   function State () { this.value = 'Hello' }
-  function template ({ value }) {
+  function view ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', prepare(template, State))
+  merge('body', prepare(view, State))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'template state as constructor rendered correctly')
+      'Hello', 'view state as constructor rendered correctly')
     t.end()
   })
 })
 
-test('render simple template with constructor function as app state', t => {
+test('render simple view with constructor function as app state', t => {
   t.plan(1)
   function State () { this.value = 'Hello' }
-  function template ({ value }) {
+  function view ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', prepare(template), State)
+  merge('body', prepare(view), State)
   ready(function () {
     t.equal(document.querySelector('p').innerHTML,
       'Hello', 'app state as constructor rendered correctly')
@@ -167,31 +167,31 @@ test('render simple template with constructor function as app state', t => {
   })
 })
 
-test('render simple template with state class', t => {
+test('render simple view with state class', t => {
   t.plan(1)
   class State {
     constructor () { this.value = 'Hello' }
   }
-  function template ({ value }) {
+  function view ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', prepare(template, State))
+  merge('body', prepare(view, State))
   ready(function () {
     t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'template state as class rendered correctly')
+      'Hello', 'view state as class rendered correctly')
     t.end()
   })
 })
 
-test('render simple template with state class as app state', t => {
+test('render simple view with state class as app state', t => {
   t.plan(1)
   class State {
     constructor () { this.value = 'Hello' }
   }
-  function template ({ value }) {
+  function view ({ value }) {
     return render`<body><p>${value}</p></body>`
   }
-  merge('body', prepare(template), State)
+  merge('body', prepare(view), State)
   ready(function () {
     t.equal(document.querySelector('p').innerHTML,
       'Hello', 'app state as class rendered correctly')
