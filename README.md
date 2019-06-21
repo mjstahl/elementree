@@ -1,10 +1,26 @@
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)  [![Build Status](https://img.shields.io/travis/elementreejs/elementree/master.svg?style=flat-square)](https://travis-ci.com/elementreejs/elementree.svg?branch=master)
 
 # Elementree
-> "Less framework, more work."
+> "Celebrate the code of the problem domain as opposed to the framework."
 
 Elementree is a very extremely small front-end JavaScript "framework" with a focus
 on getting the job done with the mimimum amount of framework-y concepts.
+
+__Why did you create Elementree?__
+
+Elementree is really just an exercise in constraint. I am tired of spending my time in front-end framework documentation. I wanted something that didn't rely on odd templating syntax, proprietary data shapes, multitudes of library imports. Therefore I needed to create something where the entirety of the library could be held in my head, which I might note, hasn't had a memory upgrade in some time. I wanted a library to celebrate the code of the problem domain as opposed to the framework.
+
+__Why local view state?__
+
+Local state jives with my brain. I have never been fearful of encapsulating state with an object and subsequently mutating that state. I understand the pitfalls and I do my best to work around them when they present themselves. I view local state vs a system like flux/redux a lot like I view procedural vs functional programming. My brain works better with recipes than mathematics, just like it works better with state mutations than reducers.
+
+__Why Proxies?__
+
+Proxies gives Elementree objects that keep the appearance of everyday JavaScript objects and yet perform specific semantics when mutated. This is just another case of doing my best to decrease the API foot-print, making the entire library easier to process and quickly be productive with.
+
+__Why not use a templating engine like lit-html?__
+
+I was exceptionally excited about lit-html when I originally saw it. But over time additional 'syntax' has made its way into the library for things like boolean attributes and event listeners. Don't get me wrong, the people working on that project have a whole lot more time and brains than I do, so I am sure it is for good reason. But I went with nanohtml because it didn't do anything special. It makes all Elementree's template look just like HTML with interpolated values. It is the right tool to meet the design goals of Elementree.
 
 ## Features
 
