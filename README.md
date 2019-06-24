@@ -55,7 +55,7 @@ import { merge, prepare, render } from 'elementree'
 function view (state, { user }) {
   return render`
     <body>
-      <p>${state.greeting}, ${state.first} ${state.last}</p>
+      <p>${state.greeting}, ${user.first} ${user.last}</p>
       <button onclick=${toggle}>
         Toggle
       </button>
