@@ -5,11 +5,11 @@ function proxyConstructor (obj, callback) {
     construct (target, ...args) {
       return Reflect.construct(
         function () {
-          function newTarget () { }
-          newTarget.prototype =
+          function Proxied () { }
+          Proxied.prototype =
             onchange(Object.create(target.prototype), callback)
           const instance =
-            Reflect.construct(target.prototype.constructor, [], newTarget)
+            Reflect.construct(target.prototype.constructor, [], Proxied)
           return onchange(instance, callback)
         },
         ...args
