@@ -60,5 +60,10 @@
       "path": "elementree.js",
       "limit": "6.5 KB"
     }
-  ]
+  ],
+  "standard": {
+    "ignore": [
+      "/examples/"
+    ]
+  }
 }
