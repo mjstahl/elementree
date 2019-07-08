@@ -1,8 +1,9 @@
 const mutate = require('nanomorph')
 const renderHTML = require('nanohtml')
-const locationChanged = require('./location')
 
 const create = require('./create')
+const locationChanged = require('./location')
+const messages = require('./messages')
 const ready = require('./ready')
 
 const ExprCache = new WeakMap()
@@ -22,7 +23,11 @@ function renderAndMutate (property, updated) {
   if (rendering) return
 
   rendering = true
-  rendering = !mutate(root, tree())
+  const updatedTree = tree()
+  const treeTag = updatedTree.tagName
+  const rootTag = root.tagName
+  if (treeTag !== rootTag) messages.wrongParent(rootTag, treeTag)
+  rendering = !mutate(root, updatedTree)
 }
 
 function merge (selector, prepared, appState = {}) {
