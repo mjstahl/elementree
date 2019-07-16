@@ -15,13 +15,11 @@ class ClockState {
 }
 
 function clock (state) {
-  const { hours, minutes, seconds } = state
-  const rendered = render`
+  return render`
     <body>
-      <strong>${hours} : ${minutes} : ${seconds}</strong>
+      <strong>${state.hours} : ${state.minutes} : ${state.seconds}</strong>
     </body>
   `
-  return rendered
 }
 
 merge('body', prepare(clock, ClockState))
