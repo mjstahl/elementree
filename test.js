@@ -1,6 +1,6 @@
 const test = require('tape')
-const { merge, prepare, render } = require('./elementree')
-const ready = require('./ready')
+const { merge, prepare, render } = require('./src/elementree')
+const ready = require('./src/ready')
 
 test('render simple view', t => {
   function view (app) {
