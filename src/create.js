@@ -1,21 +1,20 @@
 const onchange = require('on-change')
 
 function proxyConstructor (obj, callback) {
-  return new Proxy(obj, {
-    construct (target, ...args) {
-      return Reflect.construct(
-        function () {
-          function Proxied () { }
-          Proxied.prototype =
-            onchange(Object.create(target.prototype), callback)
-          const instance =
-            Reflect.construct(target.prototype.constructor, [], Proxied)
-          return onchange(instance, callback)
-        },
-        ...args
-      )
-    }
-  })
+  let proxied = null
+
+  function constructor () {
+    function Proxied () { }
+    Proxied.prototype =
+      onchange(Object.create(obj.prototype), callback)
+    proxied = Proxied.prototype
+    const instance =
+      Reflect.construct(obj.prototype.constructor, [], Proxied)
+    return onchange(instance, callback)
+  }
+
+  Reflect.construct(constructor, [])
+  return proxied
 }
 
 module.exports = function create (state, callback) {
@@ -23,8 +22,7 @@ module.exports = function create (state, callback) {
   if (typeof State !== 'function') State = (() => state)()
 
   if (State.prototype) {
-    const Proxied = proxyConstructor(State, callback)
-    return new Proxied()
+    return proxyConstructor(State, callback)
   } else {
     return onchange(State, callback)
   }
