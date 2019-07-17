@@ -57,7 +57,7 @@
   },
   "size-limit": [
     {
-      "path": "elementree.js",
+      "path": "src/elementree.js",
       "limit": "6.5 KB"
     }
   ],
