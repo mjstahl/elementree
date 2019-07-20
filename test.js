@@ -1,6 +1,6 @@
 const test = require('tape')
-const { merge, prepare, render } = require('./src/elementree')
-const ready = require('./src/ready')
+const { merge, prepare, render } = require('./elementree')
+const ready = require('./ready')
 
 test('render simple view', t => {
   function view (app) {
@@ -135,66 +135,6 @@ test('views have different state instances', t => {
       'hello sun', 'first instance rendered correctly')
     t.equal(document.querySelector('.child-goodnight').innerHTML,
       'goodnight moon', 'second instance rendered correctly')
-    t.end()
-  })
-})
-
-test('render simple view with constructor function', t => {
-  t.plan(1)
-  function State () { this.value = 'Hello' }
-  function view ({ value }) {
-    return render`<body><p>${value}</p></body>`
-  }
-  merge('body', prepare(view, State))
-  ready(function () {
-    t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'view state as constructor rendered correctly')
-    t.end()
-  })
-})
-
-test('render simple view with constructor function as app state', t => {
-  t.plan(1)
-  function State () { this.value = 'Hello' }
-  function view ({ value }) {
-    return render`<body><p>${value}</p></body>`
-  }
-  merge('body', prepare(view), State)
-  ready(function () {
-    t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'app state as constructor rendered correctly')
-    t.end()
-  })
-})
-
-test('render simple view with state class', t => {
-  t.plan(1)
-  class State {
-    constructor () { this.value = 'Hello' }
-  }
-  function view ({ value }) {
-    return render`<body><p>${value}</p></body>`
-  }
-  merge('body', prepare(view, State))
-  ready(function () {
-    t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'view state as class rendered correctly')
-    t.end()
-  })
-})
-
-test('render simple view with state class as app state', t => {
-  t.plan(1)
-  class State {
-    constructor () { this.value = 'Hello' }
-  }
-  function view ({ value }) {
-    return render`<body><p>${value}</p></body>`
-  }
-  merge('body', prepare(view), State)
-  ready(function () {
-    t.equal(document.querySelector('p').innerHTML,
-      'Hello', 'app state as class rendered correctly')
     t.end()
   })
 })

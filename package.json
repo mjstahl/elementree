@@ -46,7 +46,7 @@
     "standard": "^12.0.1",
     "tape": "^4.11.0",
     "tape-run": "^6.0.0",
-    "webpack": "^4.35.3",
+    "webpack": "^4.36.1",
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
@@ -57,13 +57,8 @@
   },
   "size-limit": [
     {
-      "path": "src/elementree.js",
+      "path": "./elementree.js",
       "limit": "6.5 KB"
     }
-  ],
-  "standard": {
-    "ignore": [
-      "/examples/"
-    ]
-  }
+  ]
 }

@@ -13,6 +13,11 @@ let root = null
 let tree = null
 let rendering = false
 
+function create (state, callback) {
+  const State = (() => state)()
+  return onChange(State, callback)
+}
+
 function renderAndMutate (property, updated) {
   const appStateUpdated = this === AppState && updated
   if (RouteState && appStateUpdated && property === 'route') {
@@ -28,14 +33,14 @@ function renderAndMutate (property, updated) {
 function merge (selector, prepared, appState = {}) {
   rendering = true
 
-  AppState = onChange(appState, renderAndMutate)
+  AppState = create(appState, renderAndMutate)
   RouteState = locationChanged(({ path }) => {
     AppState.route = path
   })
 
   const rootView = prepared(AppState)
   const rootState = (rootView.initWith)
-    ? onChange(rootView.initWith, renderAndMutate)
+    ? create(rootView.initWith, renderAndMutate)
     : undefined
   tree = () => rootView(rootState)
 
@@ -60,7 +65,7 @@ function prepare (view, state) {
 function render (strings, ...exprs) {
   const values = ExprCache.get(strings) || exprs.map(e => {
     return (e && e.callable && e.initWith)
-      ? onChange(e.initWith, renderAndMutate)
+      ? create(e.initWith, renderAndMutate)
       : e
   })
   ExprCache.set(strings, values)
