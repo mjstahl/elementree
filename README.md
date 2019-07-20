@@ -75,20 +75,19 @@ const app = {
   user: { first: 'Mark', last: 'Stahl' }
 }
 
-// export the result and do some server-side rendering
-module.exports = merge('body', prepare(view, state), app)
+merge('body', prepare(view, state), app)
 ```
 
 ## Elementree API
 
 ```js
-merge(to: String, view: Function [, state: Object | Function]) -> String | undefined
+merge(to: String, view: Function [, state: Object]) -> String | undefined
 ```
 
 `merge` wires up a view and an optional object representing the application
 state and merges it to a selector. Simply put, `merge` renders your root view to the DOM.
 
-The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the top-level view. This argument is a `Function` that returns a function that returns an `HTMLElement` such as a `prepare` call. The third, optional, argument is an object or function that returns an object representing the application's state. This object will passed to the renderer function as an parent argument (i.e. following the view's state if there is one).
+The first argument to `merge` is a string which will be used by `document.querySelector`, after `DOMContentLoaded`, to find root element. The second argument is the top-level view. This argument is a `Function` that returns a function that returns an `HTMLElement` such as a `prepare` call. The third, optional, argument is an object representing the application's state. This object will passed to the renderer function as an parent argument (i.e. following the view's state if there is one).
 
 Elementree adds a single property to the application's state object. The `route` property is a concatenation of `location.pathname`, `location.search` and `location.hash`. Updating the `route` property will cause a `history.pushState`. Updating the address through browser interations will update the `route` property.
 
@@ -96,10 +95,10 @@ If the `window` object does not exist the call to `merge` will return the `outer
 
 
 ```js
-prepare(view: Function [, state: Object | Function]) -> (Function -> HTMLElement)
+prepare(view: Function [, state: Object]) -> (Function -> HTMLElement)
 ```
 
-`prepare` a template with a state object, creating a view function. At a minimum, a view function is required to be passed as the first argument. The second argument, which is optional, is a class, object, or function that returns an object. This returned object is the local view state. If the view function is joined with a state, the state object **will ALWAYS be the 0th argument to the view function**. All parent arguments will follow.
+`prepare` a template with a state object, creating a view function. At a minimum, a view function is required to be passed as the first argument. The second argument, which is optional, is an object representing the local view state. If the view function is joined with a state, the state object **will ALWAYS be the 0th argument to the view function**. All parent arguments will follow.
 
 
 ```js
