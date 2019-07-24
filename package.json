@@ -6,7 +6,7 @@
   "unpkg": "dist/esm.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "run-s clean bundle size",
+    "build": "run-s clean lint bundle size",
     "bundle": "webpack",
     "clean": "rimraf dist",
     "lint": "standard --fix",

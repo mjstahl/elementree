@@ -22,5 +22,4 @@ const esm = Object.assign({}, base, {
   ]
 })
 
-
 module.exports = [esm]
