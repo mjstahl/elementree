@@ -6,15 +6,11 @@
 Elementree is a very extremely small front-end JavaScript "framework" with a focus
 on getting the job done with the mimimum amount of framework-y concepts.
 
-## Features
+## Elementree is/has...
 
-* Tiny size. Elementree is less than 6.1 KB with all dependencies and compressed.
+* Tiny in size. Elementree is less than 6.1 KB with all dependencies and compressed.
 * Minimal cognitive overhead. More time focused on the problem domain and less time thumbing through framework documentation.
 * Nothing fancy. No transpiling, compiling, or proprietary data shapes. Just functions and template strings.
-
-## Philosophy
-
-The APIs introduced in Elementree and used during development are deliberately kept small in number and complexity. This fosters focus on the problem domain and process, as opposed to the glory of the framework.
 
 ## Installation (Bare ES Modules)
 
