@@ -12,23 +12,9 @@ const outputBase = {
   library: 'elementree'
 }
 
-const cjs = Object.assign({}, base, {
-  output: Object.assign({}, outputBase, {
-    filename: 'elementree.cjs.js',
-    libraryTarget: 'commonjs'
-  })
-})
-
-const umd = Object.assign({}, base, {
-  output: Object.assign({}, outputBase, {
-    filename: 'elementree.umd.js',
-    libraryTarget: 'umd'
-  })
-})
-
 const esm = Object.assign({}, base, {
   output: Object.assign({}, outputBase, {
-    filename: 'elementree.esm.js',
+    filename: 'esm.js',
     libraryTarget: 'var'
   }),
   plugins: [
@@ -37,4 +23,4 @@ const esm = Object.assign({}, base, {
 })
 
 
-module.exports = [cjs, esm, umd]
+module.exports = [esm]

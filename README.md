@@ -16,19 +16,18 @@ on getting the job done with the mimimum amount of framework-y concepts.
 
 The APIs introduced in Elementree and used during development are deliberately kept small in number and complexity. This fosters focus on the problem domain and process, as opposed to the glory of the framework.
 
-## Installation
+## Installation (Bare ES Modules)
 
-```sh
-$ npm install --save elementree
+```html
+<!-- in *.html -->
+<script type="module">
+  import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
+</script>
 ```
 
 ```js
-import {
-  merge,   // merge the document with the rendering of a template
-  prepare, // prepare the rendering of a template with its state
-  html,    // return HTML as HTML, without escaping the characters
-  render,  // render JS template strings as HTML
-} from 'elementree'
+// in *.js
+import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
 ```
 
 ## Example
@@ -65,7 +64,7 @@ merge('body', prepare(view, state), app)
 ## Elementree API
 
 ```js
-merge(to: String, view: Function [, state: Object]) -> String | undefined
+merge(to: String, view: Function [, state: Object]) -> undefined
 ```
 
 `merge` wires up a view and an optional object representing the application

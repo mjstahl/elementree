@@ -2,9 +2,8 @@
   "name": "elementree",
   "version": "0.27.0",
   "description": "MV* Framework with Proxy Observables and JS Template Literals",
-  "browser": "dist/elementree.umd.js",
-  "module": "dist/elementree.esm.js",
-  "unpkg": "dist/elementree.esm.js",
+  "module": "dist/esm.js",
+  "unpkg": "dist/esm.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "run-s clean bundle size",
@@ -44,11 +43,8 @@
     "rimraf": "^2.6.3",
     "size-limit": "^1.3.7",
     "standard": "^12.0.1",
-    "tape": "^4.11.0",
-    "tape-run": "^6.0.0",
     "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-tape-run": "0.0.7"
+    "webpack-cli": "^3.3.6"
   },
   "dependencies": {
     "nanohtml": "^1.6.3",
@@ -58,7 +54,7 @@
   },
   "size-limit": [
     {
-      "path": "./dist/elementree.esm.js",
+      "path": "./dist/esm.js",
       "limit": "6.1 KB"
     }
   ]
