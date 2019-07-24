@@ -1,6 +1,6 @@
 {
   "name": "elementree",
-  "version": "0.26.1",
+  "version": "0.27.0",
   "description": "MV* Framework with Proxy Observables and JS Template Literals",
   "browser": "dist/elementree.umd.js",
   "module": "dist/elementree.esm.js",
