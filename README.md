@@ -29,7 +29,7 @@ import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
 ## Example
 
 ```js
-import { merge, prepare, render } from 'elementree'
+import { merge, prepare, render } from 'https://unpkg.com/elementree'
 
 function view (state, { user }) {
   return render`
