@@ -12,72 +12,40 @@ on getting the job done with the mimimum amount of framework-y concepts.
 * Minimal cognitive overhead. More time focused on the problem domain and less time thumbing through framework documentation.
 * Nothing fancy. No transpiling, compiling, or proprietary data shapes. Just functions and template strings.
 
-## Installation (Bare ES Modules)
+## Example
 
 ```html
-<!-- in *.html -->
-<script type="module">
-  import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
-</script>
-```
-
-```js
-// in *.js
-import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
-```
-
-## Examples
-
-```js
-import { merge, prepare, render } from 'https://unpkg.com/elementree'
-
-function view (state, { user }) {
-  return render`
-    <body>
-      <p>${state.greeting}, ${user.first} ${user.last}</p>
-      <button onclick=${toggle}>
-        Toggle
-      </button>
-    </body>
-  `
-
-  function toggle () {
-    state.greeting = 'Goodbye'
-  }
-}
-
-// state local to the template above
-const state = { greeting: 'Hello' }
-
-// application state
-const app = {
-  user: { first: 'Mark', last: 'Stahl' }
-}
-
-merge('body', prepare(view, state), app)
-```
-
-```js
 <!DOCTYPE html>
 <html>
   <body>
     <script type="module">
       import { merge, prepare, render } from 'https://unpkg.com/elementree'
 
-      async function Hello (state) {
-        if (!state.email) {
-          const response = await fetch('https://reqres.in/api/users/2')
-          const { data } = await response.json()
-          state.email = data.email
-        }
+      function Hello (state) {
+        if (!state.email) state.requestUser()
         return render`
           <body>
-            <p>${!state.email ? 'LOADING....' : `Hello! ${state.email}`}</p>
+            <p>Hello! ${state.email}</p>
+            <button onclick=${()=> state.nextEmail()}>Next Email</button>
           </body>
         `
       }
 
-      merge('body', prepare(Hello, {}))
+      const HelloState = {
+        id: 1,
+        email: '',
+        nextEmail: function () {
+          this.email = null
+          this.id += 1
+        },
+        requestUser: async function () {
+          const response = await fetch(`https://reqres.in/api/users/${this.id}`)
+          const { data } = await response.json()
+          this.email = data.email
+        }
+      }
+
+      merge('body', prepare(Hello, HelloState))
     </script>
   </body>
 </html>
