@@ -55,7 +55,7 @@
   "size-limit": [
     {
       "path": "./dist/esm.js",
-      "limit": "6.1 KB"
+      "limit": "6.2 KB"
     }
   ]
 }

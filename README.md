@@ -8,7 +8,7 @@ on getting the job done with the mimimum amount of framework-y concepts.
 
 ## Elementree is/has...
 
-* Tiny in size. Elementree is less than 6.1 KB with all dependencies and compressed.
+* Tiny in size. Elementree is less than 6.5 KB with all dependencies and compressed.
 * Minimal cognitive overhead. More time focused on the problem domain and less time thumbing through framework documentation.
 * Nothing fancy. No transpiling, compiling, or proprietary data shapes. Just functions and template strings.
 
