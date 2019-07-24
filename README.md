@@ -26,7 +26,7 @@ on getting the job done with the mimimum amount of framework-y concepts.
 import { merge, prepare, html, render } from 'https://unpkg.com/elementree'
 ```
 
-## Example
+## Examples
 
 ```js
 import { merge, prepare, render } from 'https://unpkg.com/elementree'
@@ -55,6 +55,32 @@ const app = {
 }
 
 merge('body', prepare(view, state), app)
+```
+
+```js
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="module">
+      import { merge, prepare, render } from 'https://unpkg.com/elementree'
+
+      async function Hello (state) {
+        if (!state.email) {
+          const response = await fetch('https://reqres.in/api/users/2')
+          const { data } = await response.json()
+          state.email = data.email
+        }
+        return render`
+          <body>
+            <p>${!state.email ? 'LOADING....' : `Hello! ${state.email}`}</p>
+          </body>
+        `
+      }
+
+      merge('body', prepare(Hello, {}))
+    </script>
+  </body>
+</html>
 ```
 
 ## Elementree API
