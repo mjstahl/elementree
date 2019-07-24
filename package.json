@@ -2,8 +2,8 @@
   "name": "elementree",
   "version": "0.28.0",
   "description": "MV* Framework with Proxy Observables and JS Template Literals",
-  "main": "dist/esm.js",
-  "unpkg": "dist/esm.js",
+  "main": "dist/elementree.esm.js",
+  "unpkg": "dist/elementree.esm.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "run-s clean lint bundle size",
@@ -54,8 +54,8 @@
   },
   "size-limit": [
     {
-      "path": "./dist/esm.js",
-      "limit": "6.2 KB"
+      "path": "./dist/elementree.esm.js",
+      "limit": "6.5 KB"
     }
   ]
 }

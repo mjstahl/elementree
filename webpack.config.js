@@ -3,6 +3,7 @@ const ESMWebpackPlugin = require('@purtuga/esm-webpack-plugin')
 
 const base = {
   mode: 'production',
+  devtool: 'source-map',
   target: 'web',
   entry: './lib/elementree.js'
 }
@@ -14,7 +15,7 @@ const outputBase = {
 
 const esm = Object.assign({}, base, {
   output: Object.assign({}, outputBase, {
-    filename: 'esm.js',
+    filename: 'elementree.esm.js',
     libraryTarget: 'var'
   }),
   plugins: [
