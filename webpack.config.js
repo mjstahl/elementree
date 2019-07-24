@@ -1,12 +1,40 @@
 const path = require('path')
+const ESMWebpackPlugin = require('@purtuga/esm-webpack-plugin')
 
-module.exports = {
+const base = {
   mode: 'production',
-  entry: './elementree.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'elementree.js',
-    library: 'elementree',
-    libraryTarget: 'umd'
-  }
+  target: 'web',
+  entry: './lib/elementree.js'
 }
+
+const outputBase = {
+  path: path.resolve(__dirname, './dist'),
+  library: 'elementree'
+}
+
+const cjs = Object.assign({}, base, {
+  output: Object.assign({}, outputBase, {
+    filename: 'elementree.cjs.js',
+    libraryTarget: 'commonjs'
+  })
+})
+
+const umd = Object.assign({}, base, {
+  output: Object.assign({}, outputBase, {
+    filename: 'elementree.umd.js',
+    libraryTarget: 'umd'
+  })
+})
+
+const esm = Object.assign({}, base, {
+  output: Object.assign({}, outputBase, {
+    filename: 'elementree.esm.js',
+    libraryTarget: 'var'
+  }),
+  plugins: [
+    new ESMWebpackPlugin()
+  ]
+})
+
+
+module.exports = [cjs, esm, umd]

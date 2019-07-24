@@ -2,19 +2,19 @@
   "name": "elementree",
   "version": "0.26.1",
   "description": "MV* Framework with Proxy Observables and JS Template Literals",
-  "main": "dist/elementree.js",
+  "browser": "dist/elementree.umd.js",
+  "module": "dist/elementree.esm.js",
+  "unpkg": "dist/elementree.esm.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "run-s clean test bundle size",
+    "build": "run-s clean bundle size",
     "bundle": "webpack",
     "clean": "rimraf dist",
     "lint": "standard --fix",
     "release:patch": "npm run build && npm version patch && npm publish",
     "release:minor": "npm run build && npm version minor && npm publish",
     "release:major": "npm run build && npm version major && npm publish",
-    "size": "size-limit",
-    "test": "run-s lint test-run",
-    "test-run": "browserify test.js | tape-run"
+    "size": "size-limit"
   },
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "tiny"
   ],
   "devDependencies": {
-    "browserify": "^16.3.0",
+    "@purtuga/esm-webpack-plugin": "^1.1.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "size-limit": "^1.3.7",
@@ -47,7 +47,8 @@
     "tape": "^4.11.0",
     "tape-run": "^6.0.0",
     "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "webpack-tape-run": "0.0.7"
   },
   "dependencies": {
     "nanohtml": "^1.6.3",
@@ -57,7 +58,7 @@
   },
   "size-limit": [
     {
-      "path": "./elementree.js",
+      "path": "./dist/elementree.esm.js",
       "limit": "6.1 KB"
     }
   ]
