@@ -26,7 +26,7 @@ on getting the job done with the mimimum amount of framework-y concepts.
         return render`
           <body>
             <p>Hello! ${state.email}</p>
-            <button onclick=${()=> state.nextEmail()}>Next Email</button>
+            <button onclick=${() => state.nextEmail()}>Next Email</button>
           </body>
         `
       }
