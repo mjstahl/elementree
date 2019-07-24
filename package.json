@@ -1,6 +1,6 @@
 {
   "name": "elementree",
-  "version": "0.27.5",
+  "version": "0.28.0",
   "description": "MV* Framework with Proxy Observables and JS Template Literals",
   "main": "dist/esm.js",
   "unpkg": "dist/esm.js",
