@@ -6,14 +6,15 @@
   "unpkg": "dist/elementree.esm.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "run-s clean lint bundle size",
+    "build": "run-s clean lint test bundle size",
     "bundle": "webpack",
     "clean": "rimraf dist",
     "lint": "standard --fix",
     "release:patch": "npm run build && npm version patch && npm publish",
     "release:minor": "npm run build && npm version minor && npm publish",
     "release:major": "npm run build && npm version major && npm publish",
-    "size": "size-limit"
+    "size": "size-limit",
+    "test": "ava --serial --verbose"
   },
   "repository": {
     "type": "git",
@@ -26,19 +27,21 @@
   },
   "homepage": "https://github.com/elementreejs/elementree#readme",
   "keywords": [
-    "client",
-    "minimal",
-    "frontend",
-    "framework",
     "html",
+    "framework",
+    "client",
+    "frontend",
     "observables",
     "template",
     "template strings",
+    "minimal",
     "small",
     "tiny"
   ],
   "devDependencies": {
     "@purtuga/esm-webpack-plugin": "^1.1.1",
+    "ava": "^2.2.0",
+    "browser-env": "^3.2.6",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "size-limit": "^1.3.7",
@@ -47,10 +50,29 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
+    "esm": "^3.2.25",
     "nanohtml": "^1.6.3",
     "nanomorph": "^5.4.0",
     "on-change": "^1.6.2",
     "onpushstate": "^0.3.1"
+  },
+  "ava": {
+    "babel": {
+      "testOptions": {
+        "presets": [
+          [
+            "module:ava/stage-4",
+            {
+              "modules": false
+            }
+          ]
+        ]
+      }
+    },
+    "require": [
+      "esm",
+      "./test/_setup.js"
+    ]
   },
   "size-limit": [
     {

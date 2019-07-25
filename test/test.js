@@ -1,24 +1,32 @@
-const test = require('tape')
-const { merge, prepare, render } = require('./elementree')
-const ready = require('./ready')
+import test from 'ava'
 
-test('render simple view', t => {
+import { merge, prepare, render } from '../lib/elementree'
+import ready from '../lib/ready'
+
+test.beforeEach(_ => {
+  const parent = document.querySelector('body')
+  while (parent.firstChild) {
+    parent.firstChild.remove()
+  }
+})
+
+test.cb('render simple view', t => {
   function view (app) {
-    t.equal(arguments.length, 1, 'app state was passed to root renderer')
-    t.ok(app.route, 'app state has route property')
+    t.is(arguments.length, 1, 'app state was passed to root renderer')
+    t.truthy(app.route, 'app state has route property')
     return render`<body><p>Hello</p></body>`
   }
   merge('body', prepare(view))
   ready(() => {
-    t.ok(document.querySelector('p').innerHTML.includes('Hello'),
+    t.true(document.querySelector('p').innerHTML.includes('Hello'),
       'view rendered')
     t.end()
   })
 })
 
-test('passing arguments to child', t => {
+test.cb('passing arguments to child', t => {
   function child (fromParent) {
-    t.equal(arguments.length, 1, 'child only includes args passed from parent')
+    t.is(arguments.length, 1, 'child only includes args passed from parent')
     return render`<p id="child">${fromParent}</p>`
   }
   function parent () {
@@ -31,32 +39,32 @@ test('passing arguments to child', t => {
   }
   merge('body', prepare(parent))
   ready(() => {
-    t.equal(document.querySelector('#parent').innerHTML,
+    t.is(document.querySelector('#parent').innerHTML,
       'Hello', 'parent view rendered')
-    t.equal(document.querySelector('#child').innerHTML,
+    t.is(document.querySelector('#child').innerHTML,
       'World', 'child value substituted')
     t.end()
   })
 })
 
-test('render simple view with state', t => {
+test.cb('render simple view with state', t => {
   const state = { value: 'Hello' }
   function view ({ value }) {
-    t.ok(arguments.length, 'view state and app state was passed to root renderer')
+    t.truthy(arguments.length, 'view state and app state was passed to root renderer')
     return render`<body><p>${value}</p></body>`
   }
   merge('body', prepare(view, state))
   ready(function () {
-    t.equal(document.querySelector('p').innerHTML,
+    t.is(document.querySelector('p').innerHTML,
       'Hello', 'view state value substituted')
     t.end()
   })
 })
 
-test('passing args to child with state', t => {
+test.cb('passing args to child with state', t => {
   const childState = { value: 'World' }
   function childView ({ value }, parent) {
-    t.ok(arguments.length, 2, 'child state and parent arguments passed to child')
+    t.is(arguments.length, 2, 'child state and parent arguments passed to child')
     return render`
       <p id="child">${parent} ${value}</p>
     `
@@ -74,18 +82,17 @@ test('passing args to child with state', t => {
   }
   merge('body', prepare(parentView, parentState))
   ready(function () {
-    t.equal(document.querySelector('#parent').innerHTML,
+    t.is(document.querySelector('#parent').innerHTML,
       'Hello', 'parent value rendered')
-    t.equal(document.querySelector('#child').innerHTML,
+    t.is(document.querySelector('#child').innerHTML,
       'Brave New World', 'child state and parent arguments rendered')
     t.end()
   })
 })
 
-test('re-render on state change', t => {
-  t.plan(3)
+test.cb('re-render on state change', t => {
   function view (state, app) {
-    t.ok(app, 'appstate is defined')
+    t.truthy(app, 'appstate is defined')
     return render`
       <body>
         <p>${state.value} ${app.user.first} ${app.user.last}</p>
@@ -106,12 +113,12 @@ test('re-render on state change', t => {
   ready(function () {
     document.querySelector('button').click()
     const result = `Goodbye Mark Stahl`
-    t.equal(document.querySelector('p').innerHTML, result, 'view re-rendered')
+    t.is(document.querySelector('p').innerHTML, result, 'view re-rendered')
     t.end()
   })
 })
 
-test('views have different state instances', t => {
+test.cb('views have different state instances', t => {
   const childState = { value: 'sun' }
   function childView (state, parent) {
     state.value = (parent === 'goodnight') ? 'moon' : state.value
@@ -131,9 +138,9 @@ test('views have different state instances', t => {
   }
   merge('body', prepare(parentView))
   ready(function () {
-    t.equal(document.querySelector('.child-hello').innerHTML,
+    t.is(document.querySelector('.child-hello').innerHTML,
       'hello sun', 'first instance rendered correctly')
-    t.equal(document.querySelector('.child-goodnight').innerHTML,
+    t.is(document.querySelector('.child-goodnight').innerHTML,
       'goodnight moon', 'second instance rendered correctly')
     t.end()
   })
