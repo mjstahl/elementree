@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { merge, prepare, render } from '../lib/elementree'
+import { html, merge, prepare, render } from '../lib/elementree'
 import ready from '../lib/ready'
 
 test.beforeEach(_ => {
@@ -20,6 +20,18 @@ test.cb('render simple view', t => {
   ready(() => {
     t.true(document.querySelector('p').innerHTML.includes('Hello'),
       'view rendered')
+    t.end()
+  })
+})
+
+test.cb('render raw', t => {
+  function view () {
+    return render`<body>${html`<p>Hello World</p>`}</body>`
+  }
+  merge('body', prepare(view))
+  ready(() => {
+    t.true(document.querySelector('p').innerHTML.includes('Hello World'),
+      'raw view rendered')
     t.end()
   })
 })
