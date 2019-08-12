@@ -62,10 +62,10 @@ If the `window` object does not exist the call to `merge` will return the `outer
 
 
 ```js
-prepare(view: Function [, state: Object]) -> (Function -> HTMLElement)
+prepare(template: Function [, state: Object]) -> (Function -> HTMLElement)
 ```
 
-`prepare` a template with a state object, creating a view function. At a minimum, a view function is required to be passed as the first argument. The second argument, which is optional, is an object representing the local view state. If the view function is joined with a state, the state object **will ALWAYS be the 0th argument to the view function**. All parent arguments will follow.
+`prepare` a template function with a state object, creating a view function. At a minimum, a template function is required to be passed as the first argument. The second argument, which is optional, is an object representing the local view state. If the template function is joined with a state, the state object **will ALWAYS be the 0th argument to the view function**. All parent arguments will follow.
 
 
 ```js
