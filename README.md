@@ -15,7 +15,7 @@ on getting the job done with the mimimum amount of framework-y concepts.
     <script type="module">
       import { merge, prepare, render } from 'https://unpkg.com/elementree'
 
-      function Hello (state) {
+      function View (state) {
         if (!state.email) state.requestUser()
         return render`
           <body>
@@ -25,21 +25,20 @@ on getting the job done with the mimimum amount of framework-y concepts.
         `
       }
 
-      const HelloState = {
+      const State = {
         id: 1,
         email: '',
-        nextEmail: function () {
+        nextEmail() {
           this.email = null
           this.id += 1
         },
-        requestUser: async function () {
+        async requestUser() {
           const response = await fetch(`https://reqres.in/api/users/${this.id}`)
           const { data } = await response.json()
           this.email = data.email
         }
       }
-
-      merge('body', prepare(Hello, HelloState))
+      merge('body', prepare(View, State))
     </script>
   </body>
 </html>
